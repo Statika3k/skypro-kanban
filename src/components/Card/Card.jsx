@@ -1,10 +1,10 @@
-function Research() {
+function Card (props) {
     return(
         <div className="cards__item">
                       <div className="cards__card card">
                         <div className="card__group">
-                          <div className="card__theme _green">
-                            <p className="_green">Research</p>
+                          <div className="card__theme _orange">
+                            <p className={props.color}>{props.title}</p>
                           </div>
                           <a href="#popBrowse" target="_self">
                             <div className="card__btn">
@@ -55,4 +55,4 @@ function Research() {
     )
 }
 
-export default Research
+export default Card
