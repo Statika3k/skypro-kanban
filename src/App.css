@@ -811,6 +811,16 @@ body {
   display: block;
 }
 
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  font-size: 1.5rem;
+  color: #94A6BE;
+  font-weight: bold;
+}
+
 .column__title {
   padding: 0 10px;
   margin: 15px 0;
