@@ -32,11 +32,11 @@ function MainContent() {
               <div className="loading">Данные загружаются...</div>
             ) : (
               <>
-                {columnTitles.map(title => (
+                {columnTitles.map(columnName => (
                   <Column
-                    key={title}
-                    title={title}
-                    cards={cards.filter(card => card.status === title)}
+                    key={columnName}
+                    title={columnName}
+                    cards={cards.filter(card => card.status === columnName)}
                   />
                 ))}
               </>
