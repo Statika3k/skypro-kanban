@@ -2,12 +2,11 @@
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
 import "./App.css";
-import Header from "./components/header";
-import MainContent from "./components/MainContent";
+import Header from "./components/Header/Header";
+import MainContent from "./components/MainContent/MainContent";
 import PopBrowse from "./components/popups/PopBrowse";
-import PopExit from "./components/popups/popExit";
+import PopExit from "./components/popups/PopExit";
 import PopNewCard from "./components/popups/PopNewCard";
-
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -25,7 +24,6 @@ function App() {
 
         <Header />
         <MainContent />
-        
       </div>
 
       {/* <script src="js/script.js"></script> */}
