@@ -1,24 +1,19 @@
-import Card from "../Card/Card";
+import { ColumnWrapper, ColumnTitle, CardsContainer } from './Column.styled';
+import Card from '../Card/Card';
 
-function Column ({ title, cards }) {
-    return (
-    <div className="main__column column">
-      <div className="column__title">
+function Column({ title, cards }) {
+  return (
+    <ColumnWrapper>
+      <ColumnTitle>
         <p>{title}</p>
-      </div>
-      <div className="cards">
+      </ColumnTitle>
+      <CardsContainer>
         {cards.map(card => (
-          <Card
-            key={card.id}
-            id={card.id}
-            theme={card.theme}
-            title={card.title}
-            date={card.date}
-          />
+          <Card key={card.id} {...card} />
         ))}
-      </div>
-    </div>
+      </CardsContainer>
+    </ColumnWrapper>
   );
 }
 
-export default Column
+export default Column;

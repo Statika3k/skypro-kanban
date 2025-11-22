@@ -1,6 +1,13 @@
 import Column from "../Column/Column";
 import { cardList } from "../../data";
 import { useEffect, useState } from "react";
+import {
+  MainWrapper,
+  Container,
+  MainBlock,
+  SMainContent,
+  Loading,
+} from './MainContent.styled';
 
 function MainContent() {
   const [loading, setLoading] = useState(true);
@@ -23,28 +30,26 @@ function MainContent() {
     "Готово",
   ];
 
-  return (
-    <main className="main">
-      <div className="container">
-        <div className="main__block">
-          <div className="main__content">
-            {loading ? (
-              <div className="loading">Данные загружаются...</div>
-            ) : (
-              <>
-                {columnTitles.map(columnName => (
-                  <Column
-                    key={columnName}
-                    title={columnName}
-                    cards={cards.filter(card => card.status === columnName)}
-                  />
-                ))}
-              </>
-            )}
-          </div>
-        </div>
-      </div>
-    </main>
+ return (
+    <MainWrapper>
+      <Container>
+        <MainBlock>
+          {loading ? (
+            <Loading>Данные загружаются...</Loading>
+          ) : (
+            <SMainContent>
+              {columnTitles.map((title) => (
+                <Column
+                  key={title}
+                  title={title}
+                  cards={cards.filter((card) => card.status === title)}
+                />
+              ))}
+            </SMainContent>
+          )}
+        </MainBlock>
+      </Container>
+    </MainWrapper>
   );
 }
 
