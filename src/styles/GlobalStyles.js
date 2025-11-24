@@ -45,13 +45,9 @@ html, body {
   color: #FFFFFF;
 }
 
-/* Стили для :target-попапов (не переписаны) */
-.pop-user-set:target,
-.pop-exit:target,
-.pop-new-card:target,
-.pop-browse:target {
-  display: block;
-}
+._hover01:hover {
+    background-color: #33399b;
+  }
 
 /* Цветовые классы */
 ._orange {
@@ -112,20 +108,7 @@ html, body {
   }
 }
 
-@media screen and (max-width: 660px) {
-  .pop-new-card {
-    top: 70px;
-  }
-  .pop-new-card__container {
-    padding: 0;
-    justify-content: flex-start;
-  }
-  .pop-new-card__block {
-    border-radius: 0;
-  }
-  .pop-new-card__wrap {
-    display: block;
-  }
+@media screen and (max-width: 660px) {   
   .calendar {
     max-width: 340px;
     width: 100%;
@@ -154,82 +137,29 @@ html, body {
     width: 42px;
     height: 42px;
     font-size: 14px;
-  }
-  .pop-browse {
-    top: 70px;
-  }
-  .pop-browse__container {
-    padding: 0;
-    justify-content: flex-start;
-  }
-  .pop-browse__block {
-    border-radius: 0;
-  }
-  .pop-browse__wrap {
-    display: block;
-  }
+  }  
 }
 @media screen and (max-width: 495px) {
   .container {
     width: 100%;
     padding: 0 16px;
-  }
+  } 
   
-  .pop-new-card__container {
-    padding: 0;
-    justify-content: flex-start;
-  }
-  .pop-new-card__block {
-    padding: 20px 16px 32px;
-  }
-  .pop-new-card__form {
-    max-width: 100%;
-    width: 100%;
-    display: block;
-  }
   .pop-new-card__calendar {
     width: 100%;
-  }
-  .form-new__area {
-    max-width: 100%;
-    height: 34px;
-  }
-  .form-new__create {
-    width: 100%;
-    height: 40px;
-  }
-  .pop-browse__block {
-    padding: 20px 16px 32px;
-  }
-  .pop-browse__content .theme-down {
-    display: block;
-    margin-bottom: 20px;
-  }
-  .pop-browse__content .theme-top {
-    display: none;
-  }
-  .pop-browse__form {
-    max-width: 100%;
-  }
+  }  
+  
   .pop-browse__calendar {
     width: 100%;
   }
-  .pop-browse__btn-browse button, .pop-browse__btn-edit button {
-    width: 100%;
-    height: 40px;
-  }
+  
   .pop-browse__btn-browse .btn-group, .pop-browse__btn-edit .btn-group {
     width: 100%;
   }
   .pop-browse__btn-browse .btn-group button, .pop-browse__btn-edit .btn-group button {
     margin-right: 0px;
   }
-  .form-browse__area {
-    max-width: 100%;
-  }
-  .form-browse__area {
-    height: 37px;
-  }
+ 
 }
 @media only screen and (max-width: 375px) {
   .pop-exit__block {
