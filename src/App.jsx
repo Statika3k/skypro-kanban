@@ -3,9 +3,9 @@
 // import viteLogo from '/vite.svg'
 import Header from "./components/Header/Header";
 import MainContent from "./components/MainContent/MainContent";
-import PopBrowse from "./components/popups/PopBrowse";
-import PopExit from "./components/popups/PopExit";
-import PopNewCard from "./components/popups/PopNewCard";
+import PopBrowse from "./components/popups/PopBrowse/PopBrowse";
+import PopExit from "./components/popups/PopExit/PopExit";
+import PopNewCard from "./components/popups/PopNewCard/PopNewCard";
 
 function App() {
   // const [count, setCount] = useState(0)
