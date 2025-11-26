@@ -1,38 +1,35 @@
-function Card({ id, theme, title, date }) {
-  const getColorTheme = () => {
-    switch (theme) {
-      case "Web Design":
-        return "_orange";
-      case "Research":
-        return "_green";
-      case "Copywriting":
-        return "_purple";
-      default:
-        return "_gray";
-    }
-  };
+import {
+  CardItem,
+  CardsCard,
+  CardGroup,
+  CardTheme,
+  CardBtn,
+  CardDots,
+  CardContent,
+  CardTitle,
+  CardDate,
+  DateText,
+} from './Card.styled';
 
-  const colorTheme = getColorTheme();
+function Card({ id, theme, title, date }) {
   return (
-    <div className="cards__item">
-      <div className="cards__card card">
-        <div className="card__group">
-          <div className={`card__theme ${colorTheme}`}>
-            <p className={colorTheme}>{theme}</p>
-          </div>
-          <a href="#popBrowse" target="_self">
-            <div className="card__btn">
-              <div></div>
-              <div></div>
-              <div></div>
-            </div>
-          </a>
-        </div>
-        <div className="card__content">
-          <a href="" target="_blank">
-            <h3 className="card__title">{title}</h3>
-          </a>
-          <div className="card__date">
+    <CardItem>
+      <CardsCard>
+        <CardGroup>
+          <CardTheme $theme={theme}>{theme}</CardTheme>
+          <CardBtn href="#popBrowse" target="_self">
+            <CardDots />
+            <CardDots />
+            <CardDots />
+          </CardBtn>
+        </CardGroup>
+        <CardContent>
+          <CardTitle>
+            <a href="" target="_blank">
+              {title}
+            </a>
+          </CardTitle>
+          <CardDate>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="13"
@@ -61,11 +58,11 @@ function Card({ id, theme, title, date }) {
                 </clipPath>
               </defs>
             </svg>
-            <p>{date}</p>
-          </div>
-        </div>
-      </div>
-    </div>
+            <DateText>{date}</DateText>
+          </CardDate>
+        </CardContent>
+      </CardsCard>
+    </CardItem>
   );
 }
 
