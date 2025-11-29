@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import {
   CardItem,
   CardsCard,
@@ -12,12 +13,19 @@ import {
 } from './Card.styled';
 
 function Card({ id, theme, title, date }) {
+  const navigate = useNavigate();
+
+  const handleCardClick = (e) => {
+    e.preventDefault();
+    navigate(`/card/${id}`);
+  };
+
   return (
     <CardItem>
-      <CardsCard>
+      <CardsCard onClick={handleCardClick}>
         <CardGroup>
           <CardTheme $theme={theme}>{theme}</CardTheme>
-          <CardBtn href="#popBrowse" target="_self">
+          <CardBtn href="#popBrowse" target="_self" onClick={(e) => e.stopPropagation()}>
             <CardDots />
             <CardDots />
             <CardDots />
@@ -25,7 +33,7 @@ function Card({ id, theme, title, date }) {
         </CardGroup>
         <CardContent>
           <CardTitle>
-            <a href="" target="_blank">
+            <a href="" onClick={(e) => e.preventDefault()}>
               {title}
             </a>
           </CardTitle>

@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import PopUser from '../popups/PopUser/PopUser';
+import { useState } from "react";
+import PopUser from "../popups/PopUser/PopUser";
+import { useNavigate } from "react-router-dom";
 import {
   SHeader,
   Container,
@@ -14,10 +15,11 @@ import {
   ThemeToggle,
   ThemeCheckbox,
   ExitButton,
-} from './Header.styled';
+} from "./Header.styled";
 
 function Header() {
   const [isPopUserOpen, setIsPopUserOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleUserClick = () => {
     setIsPopUserOpen(!isPopUserOpen);
@@ -26,7 +28,7 @@ function Header() {
   return (
     <SHeader>
       <Container>
-        <HeaderBlock>          
+        <HeaderBlock>
           <HeaderLogo className="_show _light">
             <a href="#" target="_self">
               <img src="/images/logo.png" alt="logo" />
@@ -39,14 +41,12 @@ function Header() {
           </HeaderLogo>
 
           <HeaderNav>
-            <TaskButton>
-              <a href="#popNewCard">Создать новую задачу</a>
+            <TaskButton as="button" type="button" onClick={() => navigate("/new-card")}>
+              Создать новую задачу
             </TaskButton>
 
-            <UserButton onClick={handleUserClick}>
-              Ivan Ivanov
-            </UserButton>
-            
+            <UserButton onClick={handleUserClick}>Ivan Ivanov</UserButton>
+
             {isPopUserOpen && (
               <PopUserSet>
                 <UserName>Ivan Ivanov</UserName>
@@ -55,8 +55,8 @@ function Header() {
                   <p>Темная тема</p>
                   <ThemeCheckbox />
                 </ThemeToggle>
-                <ExitButton>
-                  <a href="#popExit">Выйти</a>
+                <ExitButton as="button" type="button" onClick={() => navigate("/exit")}>
+                  Выйти
                 </ExitButton>
               </PopUserSet>
             )}
