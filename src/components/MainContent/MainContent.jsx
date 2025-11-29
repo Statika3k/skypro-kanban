@@ -7,7 +7,10 @@ import {
   MainBlock,
   SMainContent,
   Loading,
-} from './MainContent.styled';
+} from "./MainContent.styled";
+import Header from "../Header/Header";
+import { Outlet } from "react-router-dom";
+import PopBrowse from "../popups/PopBrowse/PopBrowse";
 
 function MainContent() {
   const [loading, setLoading] = useState(true);
@@ -18,7 +21,7 @@ function MainContent() {
     const timer = setTimeout(() => {
       setCards(cardList);
       setLoading(false);
-    }, 2000);
+    }, 1000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -30,8 +33,9 @@ function MainContent() {
     "Готово",
   ];
 
- return (
+  return (
     <MainWrapper>
+      <Header />
       <Container>
         <MainBlock>
           {loading ? (
@@ -42,13 +46,15 @@ function MainContent() {
                 <Column
                   key={title}
                   title={title}
-                  cards={cards.filter((card) => card.status === title)}
+                  cards={cards.filter((card) => card.status === title)}                  
                 />
               ))}
             </SMainContent>
           )}
-        </MainBlock>
+        </MainBlock>        
       </Container>
+      <PopBrowse />
+      <Outlet />
     </MainWrapper>
   );
 }
