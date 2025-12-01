@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
-export const StyledPopBrowse = styled.div`
-  display: none;
+export const StyledPopBrowse = styled.div`  
   width: 100%;
   height: 100%;
   min-width: 375px;

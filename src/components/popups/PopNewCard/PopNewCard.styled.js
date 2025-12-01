@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
-export const StyledPopNewCard = styled.div`
-  display: none;
+export const StyledPopNewCard = styled.div`  
   width: 100%;
   min-width: 375px;
   height: 100%;
