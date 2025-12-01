@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
-export const StyledPopExit = styled.div`
-  display: none;
+export const StyledPopExit = styled.div`  
   width: 100%;
   height: 100%;
   min-width: 320px;
@@ -109,7 +108,8 @@ export const ExitNoButton = styled.button`
   line-height: 21px;
   font-weight: 500;
   letter-spacing: -0.14px;
-  color: #ffffff;
+  color: rgba(86, 94, 239, 1);
+;
 
   a {
     width: 100%;
