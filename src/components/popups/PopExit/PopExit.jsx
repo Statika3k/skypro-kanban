@@ -12,15 +12,18 @@ import {
 
 function PopExit({ setIsAuth }) {
   const navigate = useNavigate();
+
   const handleExit = () => {
     setIsAuth(false);
     localStorage.removeItem('isAuth');
-    navigate('/login', { replace: true });
+    navigate("/sign-in", { replace: true });
   };
 
-  const handleStay = () => {
-    navigate(-1);
+  const handleStay = (e) => {
+    e.preventDefault();
+    navigate("/");
   };
+
   return (
     <StyledPopExit id="popExit">
       <PopExitContainer>

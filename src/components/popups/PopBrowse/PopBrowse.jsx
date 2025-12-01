@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import Calendar from "../../Calendar/Calendar";
 import {
   BtnGroup,
@@ -22,6 +23,11 @@ import {
 } from "./PopBrowse.styled";
 
 function PopBrowse() {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/");
+  };
   return (
     <StyledPopBrowse id="popBrowse">
       <PopBrowseContainer>
@@ -80,34 +86,17 @@ function PopBrowse() {
 
             <BtnBrowse>
               <BtnGroup>
-                <EditButton className="_btn-bor _hover03">
-                  <a href="#">Редактировать задачу</a>
+                <EditButton className="_btn-bor _hover03" onClick={handleClick}>
+                  Редактировать задачу
                 </EditButton>
-                <EditButton className="_btn-bor _hover03">
-                  <a href="#">Удалить задачу</a>
+                <EditButton className="_btn-bor _hover03" onClick={handleClick}>
+                  Удалить задачу
                 </EditButton>
               </BtnGroup>
-              <CloseButton className="_btn-bg _hover01">
-                <a href="#">Закрыть</a>
+              <CloseButton className="_btn-bg _hover01" onClick={handleClick}>
+                Закрыть
               </CloseButton>
             </BtnBrowse>
-
-            <div className="pop-browse__btn-edit _hide">
-              <BtnGroup>
-                <CloseButton className="_btn-bg _hover01">
-                  <a href="#">Сохранить</a>
-                </CloseButton>
-                <EditButton className="_btn-bor _hover03">
-                  <a href="#">Отменить</a>
-                </EditButton>
-                <EditButton className="_btn-bor _hover03" id="btnDelete">
-                  <a href="#">Удалить задачу</a>
-                </EditButton>
-              </BtnGroup>
-              <CloseButton className="_btn-bg _hover01">
-                <a href="#">Закрыть</a>
-              </CloseButton>
-            </div>
           </PopBrowseContent>
         </PopBrowseBlock>
       </PopBrowseContainer>

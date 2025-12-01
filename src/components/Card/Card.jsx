@@ -15,27 +15,24 @@ import {
 function Card({ id, theme, title, date }) {
   const navigate = useNavigate();
 
-  const handleCardClick = (e) => {
-    e.preventDefault();
+  const handleCardClick = () => {    
     navigate(`/card/${id}`);
   };
 
   return (
     <CardItem>
-      <CardsCard onClick={handleCardClick}>
+      <CardsCard >
         <CardGroup>
           <CardTheme $theme={theme}>{theme}</CardTheme>
-          <CardBtn href="#popBrowse" target="_self" onClick={(e) => e.stopPropagation()}>
+          <CardBtn onClick={handleCardClick}>
             <CardDots />
             <CardDots />
             <CardDots />
           </CardBtn>
         </CardGroup>
         <CardContent>
-          <CardTitle>
-            <a href="" onClick={(e) => e.preventDefault()}>
-              {title}
-            </a>
+          <CardTitle>            
+              {title}            
           </CardTitle>
           <CardDate>
             <svg

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import Calendar from "../../Calendar/Calendar";
 import {
   CategoriesTheme,
@@ -20,13 +21,19 @@ import {
 } from "./PopNewCard.styled";
 
 function PopNewCard() {
+  const navigate = useNavigate();    
+  
+    const handleClose = () => {
+      navigate("/");
+    }
+
   return (
     <StyledPopNewCard id="popNewCard">
       <PopNewCardContainer>
         <PopNewCardBlock>
           <PopNewCardContent>
             <PopNewCardTitle>Создание задачи</PopNewCardTitle>
-            <PopNewCardCloseButton href="#" className="pop-new-card__close">
+            <PopNewCardCloseButton onClick={handleClose} className="pop-new-card__close">
               &#10006;
             </PopNewCardCloseButton>
 

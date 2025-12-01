@@ -10,7 +10,6 @@ import {
 } from "./MainContent.styled";
 import Header from "../Header/Header";
 import { Outlet } from "react-router-dom";
-import PopBrowse from "../popups/PopBrowse/PopBrowse";
 
 function MainContent() {
   const [loading, setLoading] = useState(true);
@@ -52,8 +51,7 @@ function MainContent() {
             </SMainContent>
           )}
         </MainBlock>        
-      </Container>
-      <PopBrowse />
+      </Container>      
       <Outlet />
     </MainWrapper>
   );
