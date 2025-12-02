@@ -41,7 +41,7 @@ function Header() {
           </HeaderLogo>
 
           <HeaderNav>
-            <TaskButton as="button" type="button" onClick={() => navigate("/new-card")}>
+            <TaskButton as="button" type="button" onClick={() => navigate("/card/new")}>
               Создать новую задачу
             </TaskButton>
 
