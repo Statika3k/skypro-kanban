@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Calendar from "../../Calendar/Calendar";
 import {
   BtnGroup,
@@ -22,7 +22,10 @@ import {
   Label,
 } from "./PopBrowse.styled";
 
-function PopBrowse() {
+function PopBrowse({ taskId }) {
+  const params = useParams();
+  const id = taskId || params.id;
+
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -34,7 +37,9 @@ function PopBrowse() {
         <PopBrowseBlock>
           <PopBrowseContent>
             <PopBrowseTopBlock>
-              <PopBrowseTitle>Название задачи</PopBrowseTitle>
+              <PopBrowseTitle>
+                {id ? `Задача №${id}` : "Новая задача"}{" "}
+              </PopBrowseTitle>
               <div className="categories__theme theme-top _orange _active-category">
                 <p className="_orange">Web Design</p>
               </div>
