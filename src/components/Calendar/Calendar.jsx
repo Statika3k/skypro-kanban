@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   CalendarWrapper,
   CalendarTitle,
@@ -13,17 +14,164 @@ import {
   Cell,
   CalendarPeriod,
   PeriodText,
-} from './Calendar.styled';
+} from "./Calendar.styled";
 
-function Calendar() {
+function Calendar({ onDateSelect }) {
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [hoveredDate, setHoveredDate] = useState(null);
+
+  // Генерируем массив дней для календаря
+  const generateCalendarDays = () => {
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+
+    const daysInMonth = lastDay.getDate();
+    const firstDayOfWeek = (firstDay.getDay() + 6) % 7; // Понедельник = 0
+
+    const days = [];
+
+    // Дни предыдущего месяца
+    const prevMonthLastDay = new Date(year, month, 0).getDate();
+    for (let i = 0; i < firstDayOfWeek; i++) {
+      days.push({
+        day: prevMonthLastDay - firstDayOfWeek + i + 1,
+        month: month - 1,
+        year,
+        isCurrentMonth: false,
+      });
+    }
+
+    // Дни текущего месяца
+    for (let i = 1; i <= daysInMonth; i++) {
+      days.push({
+        day: i,
+        month,
+        year,
+        isCurrentMonth: true,
+        date: new Date(year, month, i),
+      });
+    }
+
+    // Дни следующего месяца
+    const totalCells = 42; // 6 недель × 7 дней
+    const remainingCells = totalCells - days.length;
+    for (let i = 1; i <= remainingCells; i++) {
+      days.push({
+        day: i,
+        month: month + 1,
+        year,
+        isCurrentMonth: false,
+      });
+    }
+
+    return days;
+  };
+
+  // Форматирование месяца и года
+  const formatMonthYear = (date) => {
+    const months = [
+      "Январь",
+      "Февраль",
+      "Март",
+      "Апрель",
+      "Май",
+      "Июнь",
+      "Июль",
+      "Август",
+      "Сентябрь",
+      "Октябрь",
+      "Ноябрь",
+      "Декабрь",
+    ];
+    return `${months[date.getMonth()]} ${date.getFullYear()}`;
+  };
+
+  // Навигация по месяцам
+  const handlePrevMonth = () => {
+    setCurrentDate(
+      new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1)
+    );
+  };
+
+  const handleNextMonth = () => {
+    setCurrentDate(
+      new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)
+    );
+  };
+
+  // Клик по дате
+  const handleDateClick = (dayObj) => {
+    if (dayObj.date) {
+      setSelectedDate(dayObj.date);
+      if (onDateSelect) {
+        onDateSelect(dayObj.date);
+      }
+    }
+  };
+
+  // Ховер по дате
+  const handleDateHover = (dayObj) => {
+    if (dayObj.date) {
+      setHoveredDate(dayObj.date);
+    }
+  };
+
+  // Сброс ховера
+  const handleDateLeave = () => {
+    setHoveredDate(null);
+  };
+
+  // Проверка - сегодняшний день
+  const isToday = (date) => {
+    if (!date) return false;
+    const today = new Date();
+    return (
+      date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear()
+    );
+  };
+
+  // Проверка - выбранная дата
+  const isSelected = (date) => {
+    if (!date || !selectedDate) return false;
+    return (
+      date.getDate() === selectedDate.getDate() &&
+      date.getMonth() === selectedDate.getMonth() &&
+      date.getFullYear() === selectedDate.getFullYear()
+    );
+  };
+
+  // Проверка - дата под ховером
+  const isHovered = (date) => {
+    if (!date || !hoveredDate) return false;
+    return (
+      date.getDate() === hoveredDate.getDate() &&
+      date.getMonth() === hoveredDate.getMonth() &&
+      date.getFullYear() === hoveredDate.getFullYear()
+    );
+  };
+
+  // Проверка - выходной
+  const isWeekend = (date) => {
+    if (!date) return false;
+    const day = date.getDay();
+    return day === 0 || day === 6; // 0 = воскресенье, 6 = суббота
+  };
+
+  const days = generateCalendarDays();
   return (
     <CalendarWrapper>
       <CalendarTitle>Даты</CalendarTitle>
       <CalendarBlock>
         <CalendarNav>
-          <CalendarMonth>Сентябрь 2023</CalendarMonth>
+          <CalendarMonth>{formatMonthYear(currentDate)}</CalendarMonth>
           <NavActions>
-            <NavAction data-action="prev">
+            <NavAction onClick={handlePrevMonth}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="6"
@@ -33,7 +181,7 @@ function Calendar() {
                 <path d="M5.72945 1.95273C6.09018 1.62041 6.09018 1.0833 5.72945 0.750969C5.36622 0.416344 4.7754 0.416344 4.41218 0.750969L0.528487 4.32883C-0.176162 4.97799 -0.176162 6.02201 0.528487 6.67117L4.41217 10.249C4.7754 10.5837 5.36622 10.5837 5.72945 10.249C6.09018 9.9167 6.09018 9.37959 5.72945 9.04727L1.87897 5.5L5.72945 1.95273Z" />
               </svg>
             </NavAction>
-            <NavAction data-action="next">
+            <NavAction onClick={handleNextMonth}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="6"
@@ -58,49 +206,42 @@ function Calendar() {
           </DaysNames>
 
           <Cells>
-            <Cell className="_other-month">28</Cell>
-            <Cell className="_other-month">29</Cell>
-            <Cell className="_other-month">30</Cell>
-            <Cell className="_cell-day">31</Cell>
-            <Cell className="_cell-day">1</Cell>
-            <Cell className="_cell-day _weekend">2</Cell>
-            <Cell className="_cell-day _weekend">3</Cell>
-            <Cell className="_cell-day">4</Cell>
-            <Cell className="_cell-day">5</Cell>
-            <Cell className="_cell-day">6</Cell>
-            <Cell className="_cell-day">7</Cell>
-            <Cell className="_cell-day _current">8</Cell>
-            <Cell className="_cell-day _weekend">9</Cell>
-            <Cell className="_cell-day _weekend">10</Cell>
-            <Cell className="_cell-day">11</Cell>
-            <Cell className="_cell-day">12</Cell>
-            <Cell className="_cell-day">13</Cell>
-            <Cell className="_cell-day">14</Cell>
-            <Cell className="_cell-day">15</Cell>
-            <Cell className="_cell-day _weekend">16</Cell>
-            <Cell className="_cell-day _weekend">17</Cell>
-            <Cell className="_cell-day">18</Cell>
-            <Cell className="_cell-day">19</Cell>
-            <Cell className="_cell-day">20</Cell>
-            <Cell className="_cell-day">21</Cell>
-            <Cell className="_cell-day">22</Cell>
-            <Cell className="_cell-day _weekend">23</Cell>
-            <Cell className="_cell-day _weekend">24</Cell>
-            <Cell className="_cell-day">25</Cell>
-            <Cell className="_cell-day">26</Cell>
-            <Cell className="_cell-day">27</Cell>
-            <Cell className="_cell-day">28</Cell>
-            <Cell className="_cell-day">29</Cell>
-            <Cell className="_cell-day _weekend">30</Cell>
-            <Cell className="_other-month _weekend">1</Cell>
+            {days.map((dayObj, index) => {
+              const today = dayObj.date && isToday(dayObj.date);
+              const selected = dayObj.date && isSelected(dayObj.date);
+              const hovered = dayObj.date && isHovered(dayObj.date);
+              const weekend = dayObj.date && isWeekend(dayObj.date);
+
+              return (
+                <Cell
+                  key={index}
+                  className={`
+                    ${dayObj.isCurrentMonth ? "_cell-day" : "_other-month"}
+                    ${weekend ? "_weekend" : ""}
+                    ${today ? "_current" : ""}
+                    ${selected ? "_selected" : ""}
+                    ${hovered ? "_hovered" : ""}
+                  `}
+                  onClick={() => handleDateClick(dayObj)}
+                  onMouseEnter={() => handleDateHover(dayObj)}
+                  onMouseLeave={handleDateLeave}
+                  title={
+                    dayObj.date ? dayObj.date.toLocaleDateString("ru-RU") : ""
+                  }
+                >
+                  {dayObj.day}
+                </Cell>
+              );
+            })}
           </Cells>
         </CalendarContent>
 
-        <input type="hidden" id="datepick_value" value="08.09.2023" />
-
         <CalendarPeriod>
           <PeriodText>
-            Выберите срок исполнения <span className="date-control"></span>.
+            Выберите срок исполнения{" "}
+            <span className="date-control">
+              {selectedDate.toLocaleDateString("ru-RU")}
+            </span>            
           </PeriodText>
         </CalendarPeriod>
       </CalendarBlock>
