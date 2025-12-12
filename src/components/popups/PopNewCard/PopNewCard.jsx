@@ -19,13 +19,85 @@ import {
   PopNewCardWrap,
   StyledPopNewCard,
 } from "./PopNewCard.styled";
+import { useState } from "react";
+import { getToken } from "../../../services/auth";
+import { postTask } from "../../../services/api";
+import { ErrorMessage } from "../../../styles/GlobalStyles";
 
 function PopNewCard() {
-  const navigate = useNavigate();    
-  
-    const handleClose = () => {
-      navigate("/");
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  // Состояние для формы
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    topic: "Research",
+    status: "Без статуса",
+    date: new Date().toISOString(),
+  });
+
+  const handleClose = () => {
+    navigate("/");
+  };
+  // Обработчик изменения полей формы
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setError("");
+  };
+
+  // Обработчик выбора темы
+  const handleTopicSelect = (topic) => {
+    setFormData((prev) => ({ ...prev, topic }));
+  };
+
+  // Обработчик выбора даты из календаря
+  const handleDateSelect = (date) => {
+    setFormData((prev) => ({ ...prev, date: date.toISOString() }));
+  };
+
+  // Отправка формы
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Валидация
+    if (!formData.title.trim()) {
+      setError("Введите название задачи");
+      return;
     }
+
+    setIsLoading(true);
+    setError("");
+
+    try {
+      const token = getToken(); // ← Получаем сохраненный токен
+      if (!token) {
+        throw new Error("Токен не найден. Пожалуйста, авторизуйтесь снова.");
+      }
+
+      //Передаем в запрос
+      await postTask({
+        token,
+        task: {
+          title: formData.title || "Новая задача",
+          description: formData.description || "",
+          topic: formData.topic || "Research",
+          status: formData.status || "Без статуса",
+          date: formData.date || new Date().toISOString(),
+        },
+      });
+
+      // Возвращаемся на главную
+      navigate("/", { replace: true });
+    } catch (error) {
+      setError(error.message || "Не удалось создать задачу");
+      console.error("Ошибка создания задачи:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <StyledPopNewCard id="popNewCard">
@@ -33,7 +105,10 @@ function PopNewCard() {
         <PopNewCardBlock>
           <PopNewCardContent>
             <PopNewCardTitle>Создание задачи</PopNewCardTitle>
-            <PopNewCardCloseButton onClick={handleClose} className="pop-new-card__close">
+            <PopNewCardCloseButton
+              onClick={handleClose}
+              className="pop-new-card__close"
+            >
               &#10006;
             </PopNewCardCloseButton>
 
@@ -43,9 +118,12 @@ function PopNewCard() {
                   <FormLabel htmlFor="formTitle">Название задачи</FormLabel>
                   <FormInput
                     type="text"
-                    name="name"
+                    name="title"
                     id="formTitle"
                     placeholder="Введите название задачи..."
+                    value={formData.title}
+                    onChange={handleInputChange}
+                    disabled={isLoading}
                     autoFocus
                   />
                 </FormNewBlock>
@@ -53,32 +131,63 @@ function PopNewCard() {
                 <FormNewBlock>
                   <FormLabel htmlFor="textArea">Описание задачи</FormLabel>
                   <FormNewArea
-                    name="text"
+                    name="description"
                     id="textArea"
                     placeholder="Введите описание задачи..."
+                    value={formData.description}
+                    onChange={handleInputChange}
+                    disabled={isLoading}
                   ></FormNewArea>
                 </FormNewBlock>
               </PopNewCardForm>
-              <Calendar />
+              <Calendar onDateSelect={handleDateSelect} />
             </PopNewCardWrap>
 
             <PopNewCardCategories>
               <PopNewCardCategoriesText>Категория</PopNewCardCategoriesText>
               <CategoriesThemes>
-                <CategoriesTheme className="_orange _active-category">
+                <CategoriesTheme
+                  className={
+                    formData.topic === "Web Design"
+                      ? "_orange _active-category"
+                      : "_orange"
+                  }
+                  onClick={() => handleTopicSelect("Web Design")}
+                >
                   <p className="_orange">Web Design</p>
                 </CategoriesTheme>
-                <CategoriesTheme className="_green">
+                <CategoriesTheme
+                  className={
+                    formData.topic === "Research"
+                      ? "_green _active-category"
+                      : "_green"
+                  }
+                  onClick={() => handleTopicSelect("Research")}
+                >
                   <p className="_green">Research</p>
                 </CategoriesTheme>
-                <CategoriesTheme className="_purple">
+                <CategoriesTheme
+                  className={
+                    formData.topic === "Copywriting"
+                      ? "_purple _active-category"
+                      : "_purple"
+                  }
+                  onClick={() => handleTopicSelect("Copywriting")}
+                >
                   <p className="_purple">Copywriting</p>
                 </CategoriesTheme>
               </CategoriesThemes>
             </PopNewCardCategories>
 
-            <FormNewCreateButton className="_hover01" id="btnCreate">
-              Создать задачу
+            {error && <ErrorMessage>{error}</ErrorMessage>}
+
+            <FormNewCreateButton
+              className="_hover01"
+              id="btnCreate"
+              onClick={handleSubmit}
+              disabled={isLoading}
+            >
+              {isLoading ? "Создание..." : "Создать задачу"}
             </FormNewCreateButton>
           </PopNewCardContent>
         </PopNewCardBlock>
