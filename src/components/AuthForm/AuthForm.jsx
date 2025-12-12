@@ -23,65 +23,92 @@ export const AuthForm = ({ isSignUp = false, setIsAuth }) => {
     login: "",
     password: "",
   });
+  
+  const validateForm = () => {
+    // Для регистрации
+    if (
+      isSignUp &&
+      (!formData.name.trim() ||
+        !formData.login.trim() ||
+        !formData.password.trim())
+    ) {
+      setError("Заполните все поля");
+      return false;
+    }
+
+    // Для авторизации
+    if (!isSignUp && (!formData.login.trim() || !formData.password.trim())) {
+      setError("Заполните все поля");
+      return false;
+    }
+
+    return true;
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    setError("");
+    setError(""); 
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setError("");
-  setIsLoading(true);
+    e.preventDefault();
+    setError("");
 
-  try {
-    let result;
-
-    if (isSignUp) {
-      result = await signUp({
-        name: formData.name,
-        login: formData.login,
-        password: formData.password,
-      });
-    } else {
-      result = await signIn({
-        login: formData.login,
-        password: formData.password,
-      });
+    // Валидация перед отправкой
+    if (!validateForm()) {
+      return;
     }
+    setError("");
+    setIsLoading(true);
 
-    console.log("API RESPONSE:", result);
+    try {
+      let result;
 
-    // возвращает токен в корне объекта!
-    if (result.token) {
-      // Сохраняем токен
-      setToken(result.token);
+      if (isSignUp) {
+        result = await signUp({
+          name: formData.name,
+          login: formData.login,
+          password: formData.password,
+        });
+      } else {
+        result = await signIn({
+          login: formData.login,
+          password: formData.password,
+        });
+      }
 
-      // Сохраняем информацию о пользователе
-      const userInfo = {
-        id: result._id,
-        name: result.name,
-        email: result.login,
-      };
-      localStorage.setItem("userInfo", JSON.stringify(userInfo));
+      console.log("API RESPONSE:", result);
 
-      // Устанавливаем авторизацию
-      setIsAuth(true);
-      localStorage.setItem("isAuth", "true");
+      // возвращает токен в корне объекта!
+      if (result.token) {
+        // Сохраняем токен
+        setToken(result.token);
 
-      // Переходим на главную
-      navigate("/", { replace: true });
-    } else {
-      throw new Error("Токен не найден в ответе сервера");
+        // Сохраняем информацию о пользователе
+        const userInfo = {
+          id: result._id,
+          name: result.name,
+          email: result.login,
+        };
+        localStorage.setItem("userInfo", JSON.stringify(userInfo));
+
+        // Устанавливаем авторизацию
+        setIsAuth(true);
+        localStorage.setItem("isAuth", "true");
+
+        // Переходим на главную
+        navigate("/", { replace: true });
+      } else {
+        throw new Error("Токен не найден в ответе сервера");
+      }
+    } catch (error) {
+      setError(error.message || "Произошла ошибка");
+      console.error("Auth error details:", error);
+    } finally {
+      setIsLoading(false);
     }
-  } catch (error) {
-    setError(error.message || "Произошла ошибка");
-    console.error("Auth error details:", error);
-  } finally {
-    setIsLoading(false);
-  }
-};
+  };
 
   return (
     <AuthFormConteiner>
