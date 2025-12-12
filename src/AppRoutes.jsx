@@ -10,7 +10,9 @@ import NotFoundPage from "./components/pages/NotFoundPage";
 import PrivateRoute from "./components/PrivateRoute";
 
 function AppRoutes() {
-  const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth") === "true");  
+  const [isAuth, setIsAuth] = useState(
+    localStorage.getItem("isAuth") === "true"
+  );
 
   return (
     <Routes>
@@ -18,12 +20,12 @@ function AppRoutes() {
         <Route path="/" element={<MainContent />}>
           <Route path="card/new" element={<NewCardPage />} />
           <Route path="card/:id" element={<BrowsePage />} />
-          <Route path="exit" element={<ExitPage setIsAuth={setIsAuth} />} />          
+          <Route path="exit" element={<ExitPage setIsAuth={setIsAuth} />} />
         </Route>
       </Route>
 
       <Route path="/sign-in" element={<SignInPage setIsAuth={setIsAuth} />} />
-      <Route path="/sign-up" element={<SignUpPage />} />
+      <Route path="/sign-up" element={<SignUpPage setIsAuth={setIsAuth} />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
