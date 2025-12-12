@@ -1,15 +1,22 @@
-import { ColumnWrapper, ColumnTitle, CardsContainer } from './Column.styled';
-import Card from '../Card/Card';
+import { ColumnWrapper, ColumnTitle, CardsContainer } from "./Column.styled";
+import Card from "../Card/Card";
 
 function Column({ title, cards }) {
+  console.log(`Column "${title}" cards:`, cards); // Для отладки
   return (
     <ColumnWrapper>
       <ColumnTitle>
         <p>{title}</p>
       </ColumnTitle>
       <CardsContainer>
-        {cards.map(card => (
-          <Card key={card.id} {...card} />
+        {cards.map((card) => (
+          <Card
+            key={card.id}
+            id={card.id}
+            theme={card.theme}
+            title={card.title}
+            date={card.date}
+          />
         ))}
       </CardsContainer>
     </ColumnWrapper>

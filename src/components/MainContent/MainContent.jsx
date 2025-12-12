@@ -9,28 +9,32 @@ import {
 } from "./MainContent.styled";
 import Header from "../Header/Header";
 import { Outlet } from "react-router-dom";
-import { fetchCards } from "../../services/api";
+import { fetchTasks } from "../../services/api";
+import { getToken } from "../../services/auth";
 
 function MainContent() {
   const [loading, setLoading] = useState(true);
   const [cards, setCards] = useState([]);
-  const [error, setError] = useState("");
 
   const getCards = useCallback(async () => {
     try {
       setLoading(true);
-      const data = await fetchCards({
-        token: "bgc0b8awbwas6g5g5k5o5s5w606g37w3cc3bo3b83k39s3co3c83c03ck",
-      });
+      const token = getToken(); // Получаем токен из localStorage
+
+      if (!token) {
+        console.error("Токен не найден");
+        return;
+      }
+
+      const data = await fetchTasks({ token });
       if (data) setCards(data);
     } catch (err) {
-      setError(err.message);
+      console.error("Ошибка загрузки задач:", err);
     } finally {
       setLoading(false);
     }
   }, []);
 
-  // Имитация загрузки
   useEffect(() => {
     getCards();
   }, [getCards]);
@@ -46,7 +50,7 @@ function MainContent() {
   return (
     <MainWrapper>
       <Header />
-      <Container error={error} cards={cards} loading={loading}>
+      <Container>
         <MainBlock>
           {loading ? (
             <Loading>Данные загружаются...</Loading>
@@ -56,7 +60,14 @@ function MainContent() {
                 <Column
                   key={title}
                   title={title}
-                  cards={cards.filter((card) => card.status === title)}
+                  cards={cards
+                    .filter((card) => card.status === title)
+                    .map((card) => ({
+                      id: card._id,
+                      theme: card.topic,
+                      title: card.title,
+                      date: new Date(card.date).toLocaleDateString("ru-RU"),
+                    }))}
                 />
               ))}
             </SMainContent>

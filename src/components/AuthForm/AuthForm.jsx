@@ -10,11 +10,13 @@ import {
   AuthFormLogin,
   AuthFormSignIn,
 } from "./AuthForm.styled";
-import { signIn, signUp } from "../../services/auth";
+import { setToken, signIn, signUp } from "../../services/auth";
 import { ErrorMessage } from "../../styles/GlobalStyles";
 
-export const AuthForm = ({ isSignUp, setIsAuth }) => {
+export const AuthForm = ({ isSignUp = false, setIsAuth }) => {
   const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -22,82 +24,64 @@ export const AuthForm = ({ isSignUp, setIsAuth }) => {
     password: "",
   });
 
-  const [errors, setErrors] = useState({
-    name: false,
-    login: false,
-    password: false,
-  });
-
-  const [error, setError] = useState("");
-
-  // функция валидации
-  const validateForm = () => {
-    const newErrors = { name: "", login: "", password: "" };
-    let isValid = true;
-
-    if (isSignUp && !formData.name.trim()) {
-      newErrors.name = true;
-      setError(
-        "Введенные вами данные не корректны. Чтобы завершить регистрацию, введите данные корректно и повторите попытку."
-      );
-      isValid = false;
-    }
-
-    if (!formData.login.trim()) {
-      newErrors.login = true;
-      setError(
-        "Введенные вами данные не корректны. Чтобы завершить регистрацию, введите данные корректно и повторите попытку."
-      );
-      isValid = false;
-    }
-
-    if (!formData.password.trim()) {
-      newErrors.password = true;
-      setError(
-        "Введенные вами данные не корректны. Чтобы завершить регистрацию, введите данные корректно и повторите попытку."
-      );
-      isValid = false;
-    }
-
-    setErrors(newErrors);
-    return isValid;
-  };
-
-  // функция, которая отслеживает в полях изменения
-  // и меняет состояние компонента
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-    setErrors({ ...errors, [name]: false });
+    setFormData((prev) => ({ ...prev, [name]: value }));
     setError("");
   };
 
-  // функция отправки формы
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!validateForm()) {
-      // если у нас форма не прошла валидацию, то дальше не продолжаем
-      return;
-    }
-    try {
-      // чтобы не писать две разных функции, выберем нужный запрос через
-      // тернарный оператор
-      const data = !isSignUp
-        ? await signIn({ login: formData.login, password: formData.password })
-        : await signUp(formData);
+  e.preventDefault();
+  setError("");
+  setIsLoading(true);
 
-      if (data) {
-        setIsAuth(true);
-        localStorage.setItem("userInfo", JSON.stringify(data));
-        navigate("/");
-      }
-    } catch (err) {
-      setError(err.message);
+  try {
+    let result;
+
+    if (isSignUp) {
+      result = await signUp({
+        name: formData.name,
+        login: formData.login,
+        password: formData.password,
+      });
+    } else {
+      result = await signIn({
+        login: formData.login,
+        password: formData.password,
+      });
     }
-  };
+
+    console.log("API RESPONSE:", result);
+
+    // возвращает токен в корне объекта!
+    if (result.token) {
+      // Сохраняем токен
+      setToken(result.token);
+
+      // Сохраняем информацию о пользователе
+      const userInfo = {
+        id: result._id,
+        name: result.name,
+        email: result.login,
+      };
+      localStorage.setItem("userInfo", JSON.stringify(userInfo));
+
+      // Устанавливаем авторизацию
+      setIsAuth(true);
+      localStorage.setItem("isAuth", "true");
+
+      // Переходим на главную
+      navigate("/", { replace: true });
+    } else {
+      throw new Error("Токен не найден в ответе сервера");
+    }
+  } catch (error) {
+    setError(error.message || "Произошла ошибка");
+    console.error("Auth error details:", error);
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   return (
     <AuthFormConteiner>
@@ -114,6 +98,8 @@ export const AuthForm = ({ isSignUp, setIsAuth }) => {
                 placeholder="Имя"
                 value={formData.name}
                 onChange={handleChange}
+                required
+                disabled={isLoading}
               />
             )}
             <AuthFormInput
@@ -122,6 +108,8 @@ export const AuthForm = ({ isSignUp, setIsAuth }) => {
               placeholder="Эл. почта"
               value={formData.login}
               onChange={handleChange}
+              required
+              disabled={isLoading}
             />
             <AuthFormInput
               type="password"
@@ -129,10 +117,18 @@ export const AuthForm = ({ isSignUp, setIsAuth }) => {
               placeholder="Пароль"
               value={formData.password}
               onChange={handleChange}
+              required
+              disabled={isLoading}
             />
-            <ErrorMessage>{error}</ErrorMessage>
-            <AuthFormBtnEnter type="submit">
-              <p>{isSignUp ? "Зарегистрироваться" : "Войти"}</p>
+            {error && <ErrorMessage>{error}</ErrorMessage>}
+            <AuthFormBtnEnter type="submit" disabled={isLoading}>
+              <p>
+                {isLoading
+                  ? "Загрузка..."
+                  : isSignUp
+                  ? "Зарегистрироваться"
+                  : "Войти"}
+              </p>
             </AuthFormBtnEnter>
             <AuthFormGroup>
               <p>

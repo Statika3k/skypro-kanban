@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MainContent from "./components/MainContent/MainContent";
 import SignInPage from "./components/pages/SignInPage";
 import SignUpPage from "./components/pages/SignUpPage";
@@ -8,11 +8,18 @@ import BrowsePage from "./components/pages/BrowsePage";
 import ExitPage from "./components/pages/ExitPage";
 import NotFoundPage from "./components/pages/NotFoundPage";
 import PrivateRoute from "./components/PrivateRoute";
+import { getToken } from "./services/auth";
 
 function AppRoutes() {
-  const [isAuth, setIsAuth] = useState(
-    localStorage.getItem("isAuth") === "true"
-  );
+  const [isAuth, setIsAuth] = useState(() => {
+    // Проверяем при инициализации
+    const token = getToken();
+    const authStatus = localStorage.getItem("isAuth") === "true";
+    return !!token && authStatus;
+  });
+
+  useEffect(() => {    
+  }, [isAuth]);
 
   return (
     <Routes>
