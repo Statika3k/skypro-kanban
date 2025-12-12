@@ -1,4 +1,13 @@
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from "styled-components";
+
+export const ErrorMessage = styled.p`
+  color: #f84d4d;
+  font-family: Arial;
+  font-weight: 400;
+  font-size: 12px;  
+  letter-spacing: 0;
+  text-align: center;
+`;
 
 export const GlobalStyles = createGlobalStyle`
 *, *:before, *:after {
