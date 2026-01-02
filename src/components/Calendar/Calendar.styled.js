@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const CalendarWrapper = styled.div`
   width: 182px;
@@ -99,23 +99,69 @@ export const Cell = styled.div`
   letter-spacing: -0.2px;
   cursor: pointer;
 
+  /* Дни других месяцев */
   &._other-month {
     opacity: 0;
+    pointer-events: none;
   }
 
-  &._cell-day:hover {
+  /* Дни текущего месяца */
+  &._cell-day {
     color: #94a6be;
-    background-color: #eaeef6;
+    
+    &:hover {
+      color: #94a6be;
+    }
   }
 
-  &._active-day {
-    background-color: #94a6be;
-    color: #ffffff;
+  /* Выходные дни */
+  &._weekend {
+    color: #94a6be;
   }
 
+  /* Сегодняшний день - жирный */
   &._current {
-    font-weight: 700;
-  } 
+    font-weight: bold;
+    color: #000000;
+  }
+
+  /* Ховер - светло-серый кружок */
+  &._hovered::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-color: #F0F0F0; /* светло-серый */
+    z-index: -1;
+  }
+
+  /* Выбранная дата - серый кружок */
+  &._selected::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-color: #EAEEF6; /* серый */
+    z-index: -1;
+  }
+
+  /* Приоритет выбранной даты над ховером */
+  &._selected._hovered::before {
+    background-color: #EAEEF6; /* оставляем серый при клике */
+  }
+
+  /* Цвет текста на выделенном фоне */
+  &._selected, &._hovered, &._selected._hovered {
+    color: #000000;
+  }
 `;
 
 export const CalendarPeriod = styled.div`

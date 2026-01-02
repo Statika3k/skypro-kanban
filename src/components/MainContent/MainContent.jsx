@@ -1,6 +1,5 @@
 import Column from "../Column/Column";
-import { cardList } from "../../data";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   MainWrapper,
   Container,
@@ -10,19 +9,35 @@ import {
 } from "./MainContent.styled";
 import Header from "../Header/Header";
 import { Outlet } from "react-router-dom";
+import { fetchTasks } from "../../services/api";
+import { getToken } from "../../services/auth";
 
 function MainContent() {
   const [loading, setLoading] = useState(true);
   const [cards, setCards] = useState([]);
 
-  // Имитация загрузки
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setCards(cardList);
+  const getCards = useCallback(async () => {
+    try {
+      setLoading(true);
+      const token = getToken(); // Получаем токен из localStorage
+
+      if (!token) {
+        console.error("Токен не найден");
+        return;
+      }
+
+      const data = await fetchTasks({ token });
+      if (data) setCards(data);
+    } catch (err) {
+      console.error("Ошибка загрузки задач:", err);
+    } finally {
       setLoading(false);
-    }, 1000);
-    return () => clearTimeout(timer);
+    }
   }, []);
+
+  useEffect(() => {
+    getCards();
+  }, [getCards]);
 
   const columnTitles = [
     "Без статуса",
@@ -45,13 +60,20 @@ function MainContent() {
                 <Column
                   key={title}
                   title={title}
-                  cards={cards.filter((card) => card.status === title)}                  
+                  cards={cards
+                    .filter((card) => card.status === title)
+                    .map((card) => ({
+                      id: card._id,
+                      theme: card.topic,
+                      title: card.title,
+                      date: new Date(card.date).toLocaleDateString("ru-RU"),
+                    }))}
                 />
               ))}
             </SMainContent>
           )}
-        </MainBlock>        
-      </Container>      
+        </MainBlock>
+      </Container>
       <Outlet />
     </MainWrapper>
   );

@@ -10,34 +10,104 @@ import {
   AuthFormLogin,
   AuthFormSignIn,
 } from "./AuthForm.styled";
+import { setToken, signIn, signUp } from "../../services/auth";
+import { ErrorMessage } from "../../styles/GlobalStyles";
 
 export const AuthForm = ({ isSignUp = false, setIsAuth }) => {
   const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
     login: "",
     password: "",
   });
+  
+  const validateForm = () => {
+    // Для регистрации
+    if (
+      isSignUp &&
+      (!formData.name.trim() ||
+        !formData.login.trim() ||
+        !formData.password.trim())
+    ) {
+      setError("Заполните все поля");
+      return false;
+    }
+
+    // Для авторизации
+    if (!isSignUp && (!formData.login.trim() || !formData.password.trim())) {
+      setError("Заполните все поля");
+      return false;
+    }
+
+    return true;
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    setError(""); 
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
 
-    setIsAuth(true);
-    localStorage.setItem("isAuth", "true");
-    
-    const userInfo = {
-      name: isSignUp ? formData.name : formData.login.split("@")[0] || "Пользователь",
-      email: formData.login,
-    };
-    localStorage.setItem("userInfo", JSON.stringify(userInfo));
+    // Валидация перед отправкой
+    if (!validateForm()) {
+      return;
+    }
+    setError("");
+    setIsLoading(true);
 
-    navigate("/", { replace: true });
+    try {
+      let result;
+
+      if (isSignUp) {
+        result = await signUp({
+          name: formData.name,
+          login: formData.login,
+          password: formData.password,
+        });
+      } else {
+        result = await signIn({
+          login: formData.login,
+          password: formData.password,
+        });
+      }
+
+      console.log("API RESPONSE:", result);
+
+      // возвращает токен в корне объекта!
+      if (result.token) {
+        // Сохраняем токен
+        setToken(result.token);
+
+        // Сохраняем информацию о пользователе
+        const userInfo = {
+          id: result._id,
+          name: result.name,
+          email: result.login,
+        };
+        localStorage.setItem("userInfo", JSON.stringify(userInfo));
+
+        // Устанавливаем авторизацию
+        setIsAuth(true);
+        localStorage.setItem("isAuth", "true");
+
+        // Переходим на главную
+        navigate("/", { replace: true });
+      } else {
+        throw new Error("Токен не найден в ответе сервера");
+      }
+    } catch (error) {
+      setError(error.message || "Произошла ошибка");
+      console.error("Auth error details:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -55,6 +125,8 @@ export const AuthForm = ({ isSignUp = false, setIsAuth }) => {
                 placeholder="Имя"
                 value={formData.name}
                 onChange={handleChange}
+                required
+                disabled={isLoading}
               />
             )}
             <AuthFormInput
@@ -63,6 +135,8 @@ export const AuthForm = ({ isSignUp = false, setIsAuth }) => {
               placeholder="Эл. почта"
               value={formData.login}
               onChange={handleChange}
+              required
+              disabled={isLoading}
             />
             <AuthFormInput
               type="password"
@@ -70,9 +144,18 @@ export const AuthForm = ({ isSignUp = false, setIsAuth }) => {
               placeholder="Пароль"
               value={formData.password}
               onChange={handleChange}
+              required
+              disabled={isLoading}
             />
-            <AuthFormBtnEnter type="submit">
-              <p>{isSignUp ? "Зарегистрироваться" : "Войти"}</p>
+            {error && <ErrorMessage>{error}</ErrorMessage>}
+            <AuthFormBtnEnter type="submit" disabled={isLoading}>
+              <p>
+                {isLoading
+                  ? "Загрузка..."
+                  : isSignUp
+                  ? "Зарегистрироваться"
+                  : "Войти"}
+              </p>
             </AuthFormBtnEnter>
             <AuthFormGroup>
               <p>
