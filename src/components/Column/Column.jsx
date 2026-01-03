@@ -1,8 +1,7 @@
 import { ColumnWrapper, ColumnTitle, CardsContainer } from "./Column.styled";
 import Card from "../Card/Card";
 
-function Column({ title, cards }) {
-  console.log(`Column "${title}" cards:`, cards); // Для отладки
+function Column({ title, cards }) {  
   return (
     <ColumnWrapper>
       <ColumnTitle>
