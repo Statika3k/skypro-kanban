@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   AuthFormBlock,
   AuthFormBtnEnter,
@@ -12,9 +12,11 @@ import {
 } from "./AuthForm.styled";
 import { setToken, signIn, signUp } from "../../services/auth";
 import { ErrorMessage } from "../../styles/GlobalStyles";
+import { AuthContext } from "../../context/AuthContext";
 
-export const AuthForm = ({ isSignUp = false, setIsAuth }) => {
+export const AuthForm = ({ isSignUp = false }) => {
   const navigate = useNavigate();
+  const { updateUserInfo } = useContext(AuthContext);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -23,7 +25,7 @@ export const AuthForm = ({ isSignUp = false, setIsAuth }) => {
     login: "",
     password: "",
   });
-  
+
   const validateForm = () => {
     // Для регистрации
     if (
@@ -48,7 +50,7 @@ export const AuthForm = ({ isSignUp = false, setIsAuth }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    setError(""); 
+    setError("");
   };
 
   const handleSubmit = async (e) => {
@@ -76,9 +78,7 @@ export const AuthForm = ({ isSignUp = false, setIsAuth }) => {
           login: formData.login,
           password: formData.password,
         });
-      }
-
-      console.log("API RESPONSE:", result);
+      }      
 
       // возвращает токен в корне объекта!
       if (result.token) {
@@ -91,10 +91,8 @@ export const AuthForm = ({ isSignUp = false, setIsAuth }) => {
           name: result.name,
           email: result.login,
         };
-        localStorage.setItem("userInfo", JSON.stringify(userInfo));
+        updateUserInfo(userInfo);
 
-        // Устанавливаем авторизацию
-        setIsAuth(true);
         localStorage.setItem("isAuth", "true");
 
         // Переходим на главную

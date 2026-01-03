@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import {
   ExitNoButton,
   ExitYesButton,
@@ -10,18 +9,23 @@ import {
   StyledPopExit,
 } from "./PopExit.styled";
 
-function PopExit({ setIsAuth }) {
-  const navigate = useNavigate();
-
-  const handleExit = () => {
-    setIsAuth(false);
-    localStorage.removeItem('isAuth');
-    navigate("/sign-in", { replace: true });
+function PopExit({ onLogout, onStay }) {
+  const handleExit = () => {    
+    if (onLogout) {
+      onLogout();
+    } else {
+      console.error("onLogout prop is missing!");
+    }
   };
 
   const handleStay = (e) => {
     e.preventDefault();
-    navigate("/");
+    
+    if (onStay) {
+      onStay();
+    } else {
+      console.error("onStay prop is missing!");
+    }
   };
 
   return (
