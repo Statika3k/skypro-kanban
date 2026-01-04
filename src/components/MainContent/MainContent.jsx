@@ -1,5 +1,5 @@
 import Column from "../Column/Column";
-import { useCallback, useEffect, useState } from "react";
+import { useContext } from "react";
 import {
   MainWrapper,
   Container,
@@ -9,35 +9,10 @@ import {
 } from "./MainContent.styled";
 import Header from "../Header/Header";
 import { Outlet } from "react-router-dom";
-import { fetchTasks } from "../../services/api";
-import { getToken } from "../../services/auth";
+import { TaskContext } from "../../context/TaskContext";
 
 function MainContent() {
-  const [loading, setLoading] = useState(true);
-  const [cards, setCards] = useState([]);
-
-  const getCards = useCallback(async () => {
-    try {
-      setLoading(true);
-      const token = getToken(); // Получаем токен из localStorage
-
-      if (!token) {
-        console.error("Токен не найден");
-        return;
-      }
-
-      const data = await fetchTasks({ token });
-      if (data) setCards(data);
-    } catch (err) {
-      console.error("Ошибка загрузки задач:", err);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    getCards();
-  }, [getCards]);
+  const { tasks, loading, error } = useContext(TaskContext);
 
   const columnTitles = [
     "Без статуса",
@@ -54,13 +29,15 @@ function MainContent() {
         <MainBlock>
           {loading ? (
             <Loading>Данные загружаются...</Loading>
+          ) : error ? (
+            <Loading style={{ color: "red" }}>Ошибка: {error}</Loading>
           ) : (
             <SMainContent>
               {columnTitles.map((title) => (
                 <Column
                   key={title}
                   title={title}
-                  cards={cards
+                  cards={tasks
                     .filter((card) => card.status === title)
                     .map((card) => ({
                       id: card._id,

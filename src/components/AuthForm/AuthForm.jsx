@@ -81,8 +81,7 @@ export const AuthForm = ({ isSignUp = false }) => {
       }      
 
       // возвращает токен в корне объекта!
-      if (result.token) {
-        // Сохраняем токен
+      if (result.token) {        
         setToken(result.token);
 
         // Сохраняем информацию о пользователе
@@ -90,9 +89,10 @@ export const AuthForm = ({ isSignUp = false }) => {
           id: result._id,
           name: result.name,
           email: result.login,
+          token: result.token,
         };
         updateUserInfo(userInfo);
-
+        
         localStorage.setItem("isAuth", "true");
 
         // Переходим на главную

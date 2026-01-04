@@ -1,13 +1,16 @@
 export function checkLs() {
-  try {
-    const userInfo = window.localStorage.getItem("userInfo");
+  const userInfo = localStorage.getItem("userInfo");
+  const token = localStorage.getItem("token");
+  const isAuth = localStorage.getItem("isAuth") === "true";
 
-    if (userInfo) {
+  if (isAuth && userInfo && token) {
+    try {
       const parsed = JSON.parse(userInfo);
-      return parsed && typeof parsed === "object" ? parsed : null;
+      return { ...parsed, token }; 
+    } catch {
+      return null;
     }
-    return null;
-  } catch {
-    return null;
   }
+
+  return null;
 }

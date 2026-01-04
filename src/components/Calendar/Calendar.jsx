@@ -16,9 +16,9 @@ import {
   PeriodText,
 } from "./Calendar.styled";
 
-function Calendar({ onDateSelect }) {
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState(new Date());
+function Calendar({ onDateSelect, initialDate }) {
+  const [currentDate, setCurrentDate] = useState(initialDate || new Date());
+  const [selectedDate, setSelectedDate] = useState(initialDate || new Date());
   const [hoveredDate, setHoveredDate] = useState(null);
 
   // Генерируем массив дней для календаря
@@ -241,7 +241,7 @@ function Calendar({ onDateSelect }) {
             Выберите срок исполнения{" "}
             <span className="date-control">
               {selectedDate.toLocaleDateString("ru-RU")}
-            </span>            
+            </span>
           </PeriodText>
         </CalendarPeriod>
       </CalendarBlock>

@@ -2,16 +2,20 @@ import { useState } from "react";
 import { AuthContext } from "./AuthContext";
 import { checkLs } from "../utils/checkLs";
 
-const AuthProvider = ({ children }) => {
+export default function AuthProvider({ children }) {
   const [user, setUser] = useState(checkLs());
 
   const updateUserInfo = (userData) => {
-    setUser(userData);
     if (userData) {
       localStorage.setItem("userInfo", JSON.stringify(userData));
+      localStorage.setItem("token", userData.token || "");
+      localStorage.setItem("isAuth", "true");
     } else {
       localStorage.removeItem("userInfo");
+      localStorage.removeItem("token");
+      localStorage.removeItem("isAuth");
     }
+    setUser(userData);
   };
 
   return (
@@ -19,6 +23,4 @@ const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
-};
-
-export default AuthProvider;
+}

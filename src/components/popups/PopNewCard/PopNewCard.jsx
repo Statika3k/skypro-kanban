@@ -19,14 +19,14 @@ import {
   PopNewCardWrap,
   StyledPopNewCard,
 } from "./PopNewCard.styled";
-import { useState } from "react";
-import { getToken } from "../../../services/auth";
-import { postTask } from "../../../services/api";
+import { useContext, useState } from "react";
 import { ErrorMessage } from "../../../styles/GlobalStyles";
+import { TaskContext } from "../../../context/TaskContext";
 
 function PopNewCard() {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
+  const { addTask, loading: taskLoading } = useContext(TaskContext);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
 
   // Состояние для формы
@@ -68,36 +68,21 @@ function PopNewCard() {
       return;
     }
 
-    setIsLoading(true);
+    setIsSubmitting(true);
     setError("");
 
     try {
-      const token = getToken(); // ← Получаем сохраненный токен
-      if (!token) {
-        throw new Error("Токен не найден. Пожалуйста, авторизуйтесь снова.");
-      }
-
-      //Передаем в запрос
-      await postTask({
-        token,
-        task: {
-          title: formData.title || "Новая задача",
-          description: formData.description || "",
-          topic: formData.topic || "Research",
-          status: formData.status || "Без статуса",
-          date: formData.date || new Date().toISOString(),
-        },
-      });
-
-      // Возвращаемся на главную
+      await addTask(formData);
       navigate("/", { replace: true });
     } catch (error) {
       setError(error.message || "Не удалось создать задачу");
       console.error("Ошибка создания задачи:", error);
     } finally {
-      setIsLoading(false);
+      setIsSubmitting(false);
     }
   };
+
+  const isLoading = taskLoading || isSubmitting;
 
   return (
     <StyledPopNewCard id="popNewCard">
