@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const StyledPopBrowse = styled.div`  
+export const StyledPopBrowse = styled.div`
   width: 100%;
   height: 100%;
   min-width: 375px;
@@ -123,8 +123,18 @@ export const StatusTheme = styled.div`
   margin-right: 7px;
   margin-bottom: 7px;
 
+  &:hover {
+    cursor: pointer;
+  }
+
   &._hide {
     display: none;
+  }
+
+  &._active {
+    background-color: #94a6be;
+    color: white;
+    cursor: pointer;
   }
 
   p {
@@ -175,12 +185,15 @@ export const FormBrowseArea = styled.textarea`
   padding: 14px;
   background: #eaeef6;
   border: 0.7px solid rgba(148, 166, 190, 0.4);
-  border-radius: 8px;
+  border-radius: 8px;  
+  font-family: "Roboto";
   font-size: 14px;
   line-height: 1;
   letter-spacing: -0.14px;
   margin-top: 14px;
   height: 200px;
+  color: #94A6BE;
+
 
   &::placeholder {
     font-weight: 400;
@@ -270,5 +283,9 @@ export const EditButton = styled.button`
   }
 `;
 
-export const CloseButton = styled(EditButton)`  
+export const CloseButton = styled(EditButton)``;
+
+export const CategoriesTheme = styled.div`
+  border-radius: 24px;
+  padding: 8px 20px;
 `;
