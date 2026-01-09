@@ -11,8 +11,7 @@ import {
 function PopUser() {
   const navigate = useNavigate();
 
-  const handleExit = () => {
-    console.log("🚀 navigate('/exit') called");  //Удалить!!!
+  const handleExit = () => {    
     navigate("/exit");
   };
 
