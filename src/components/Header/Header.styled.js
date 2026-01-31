@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const SHeader = styled.header`
   width: 100%;
   margin: 0 auto;
-  background-color: #FFFFFF;
+  background-color: ${({ theme }) => theme.isDark ? '#20202C' : '#FFFFFF'};
 `;
 
 export const Container = styled.div`
@@ -31,11 +31,11 @@ export const HeaderLogo = styled.div`
   }
 
   &._dark {
-    display: none;
+    display: ${({ theme }) => theme.isDark ? 'block' : 'none'};
   }
 
   &._show._light {
-    display: block;
+    display: ${({ theme }) => theme.isDark ? 'none' : 'block'};
   }
 `;
 
@@ -88,7 +88,7 @@ export const UserButton = styled.button`
   justify-content: center;
   font-size: 14px;
   line-height: 20px;
-  color: #565EEF;
+  color: ${({ theme }) => theme.isDark ? '#FFF' : '#565EEF'};
   background: none;
   border: none;
   cursor: pointer;
@@ -119,16 +119,16 @@ export const PopUserSet = styled.div`
   width: 213px;
   height: 205px;
   border-radius: 10px;
-  border: 0.7px solid rgba(148, 166, 190, 0.4);
-  background: #FFF;
-  box-shadow: 0px 10px 39px 0px rgba(26, 56, 101, 0.21);
+  border: 0.7px solid ${({ theme }) => theme.isDark ? '#4E5566' : 'rgba(148, 166, 190, 0.4)'};
+  background: ${({ theme }) => theme.isDark ? '#20202C' : '#FFF'};
+  box-shadow: 0px 10px 39px 0px ${({ theme }) => theme.isDark ? 'rgba(148, 166, 190, 0.4)' : 'rgba(26, 56, 101, 0.21)'};
   padding: 34px;
   text-align: center;
   z-index: 10;
 `;
 
 export const UserName = styled.p`
-  color: #000;
+  color: ${({ theme }) => theme.isDark ? '#FFF' : '#000'};
   font-size: 14px;
   font-weight: 500;
   line-height: 21px;
@@ -151,7 +151,7 @@ export const ThemeToggle = styled.div`
   margin-bottom: 30px;
 
   p {
-    color: #000;
+    color: ${({ theme }) => theme.isDark ? '#FFF' : '#000'};
     font-size: 14px;
     line-height: 21px;
     letter-spacing: -0.14px;
@@ -164,7 +164,7 @@ export const ThemeCheckbox = styled.input.attrs({ type: 'checkbox' })`
   width: 24px;
   height: 13px;
   border-radius: 100px;
-  background: #EAEEF6;
+  background: ${({ theme }) => theme.isDark ? '#4E5566' : '#EAEEF6'};
   outline: none;
   appearance: none;
 
@@ -176,7 +176,7 @@ export const ThemeCheckbox = styled.input.attrs({ type: 'checkbox' })`
     width: 11px;
     height: 11px;
     border-radius: 50%;
-    background-color: #94A6BE;
+    background-color: ${({ theme }) => theme.isDark ? '#565EEF' : '#94A6BE'};
     transition: left 0.2s ease;
   }
 
@@ -189,9 +189,9 @@ export const ExitButton = styled.button`
   width: 72px;
   height: 30px;
   background: transparent;
-  color: #565EEF;
+  color: ${({ theme }) => theme.isDark ? '#FFF' : '#565EEF'};
   border-radius: 4px;
-  border: 1px solid #565EEF;
+  border: 1px solid ${({ theme }) => theme.isDark ? '#FFF' : '#565EEF'};
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;

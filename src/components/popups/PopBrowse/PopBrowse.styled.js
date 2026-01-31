@@ -39,7 +39,7 @@ export const PopBrowseContainer = styled.div`
 export const PopBrowseBlock = styled.div`
   display: block;
   margin: 0 auto;
-  background-color: #ffffff;
+  background-color: ${({ theme }) => theme.isDark ? '#202229' : '#FFFFFF'};
   max-width: 630px;
   width: 100%;
   padding: 40px 30px 38px;
@@ -90,7 +90,7 @@ export const PopBrowseTopBlock = styled.div`
 `;
 
 export const PopBrowseTitle = styled.h3`
-  color: #000;
+  color: ${({ theme }) => (theme.isDark ? "#FFF" : "#000")};
   font-size: 20px;
   font-weight: 600;
   line-height: 24px;
@@ -101,7 +101,7 @@ export const Status = styled.div`
 `;
 
 export const StatusTitle = styled.p`
-  color: #000;
+  color: ${({ theme }) => (theme.isDark ? "#FFF" : "#000")};
   font-size: 14px;
   font-weight: 600;
   line-height: 1;
@@ -133,7 +133,7 @@ export const StatusTheme = styled.div`
 
   &._active {
     background-color: #94a6be;
-    color: white;
+    color: ${({ theme }) => (theme.isDark ? "#000" : "#FFF")};
     cursor: pointer;
   }
 
@@ -171,7 +171,7 @@ export const PopBrowseFormBlock = styled.div`
 `;
 
 export const Label = styled.label`
-  color: #000;
+  color: ${({ theme }) => (theme.isDark ? "#FFF" : "#000")};
   font-size: 14px;
   font-weight: 600;
   line-height: 1;
@@ -183,7 +183,7 @@ export const FormBrowseArea = styled.textarea`
   width: 100%;
   outline: none;
   padding: 14px;
-  background: #eaeef6;
+  background: ${({ theme }) => theme.isDark ? '#151419' : '#eaeef6'};
   border: 0.7px solid rgba(148, 166, 190, 0.4);
   border-radius: 8px;  
   font-family: "Roboto";
@@ -248,9 +248,9 @@ export const EditButton = styled.button`
   text-decoration: none;
 
   &._btn-bor {
-    border: 0.7px solid #565eef;
+    border: 0.7px solid ${({ theme }) => (theme.isDark ? "#FFF" : "#565eef")};
     background: transparent;
-    color: #565eef;
+    color: ${({ theme }) => (theme.isDark ? "#FFF" : "#565eef")};
 
     &:hover {
       background-color: #33399b;

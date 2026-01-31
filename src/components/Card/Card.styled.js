@@ -19,7 +19,7 @@ export const CardItem = styled.div`
 export const CardsCard= styled.div`
   width: 220px;
   height: 130px;
-  background-color: #FFFFFF;
+  background-color: ${({ theme }) => theme.isDark ? '#20202C' : '#FFFFFF'};
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -46,32 +46,32 @@ export const CardTheme = styled.div`
   font-weight: 600;
   line-height: 10px;
  
-  ${({ $theme }) =>
+  ${({ $theme, theme }) =>
     $theme === 'Web Design' &&
     `
-    background-color: #FFE4C2;
-    color: #FF6D00;
+    background-color: ${theme.isDark ? '#FF6D00' : '#FFE4C2'};
+    color: ${theme.isDark ? '#FFE4C2' : '#FF6D00'};
   `}
 
-  ${({ $theme }) =>
+  ${({ $theme, theme }) =>
     $theme === 'Research' &&
     `
-    background-color: #B4FDD1;
-    color: #06B16E;
+    background-color: ${theme.isDark ? '#06B16E' : '#B4FDD1'};
+    color: ${theme.isDark ? '#B4FDD1' : '#06B16E'};
   `}
 
-  ${({ $theme }) =>
+  ${({ $theme, theme }) =>
     $theme === 'Copywriting' &&
     `
-    background-color: #E9D4FF;
-    color: #9A48F1;
+    background-color: ${theme.isDark ? '#9A48F1' : '#E9D4FF'};
+    color: ${theme.isDark ? '#E9D4FF' : '#9A48F1'};
   `}
 
-  ${({ $theme }) =>
+  ${({ $theme, theme }) =>
     $theme === 'default' &&
     `
-    background: #94A6BE;
-    color: #FFFFFF;
+    background: ${theme.isDark ? '#FFFFFF' : '#94A6BE'};
+    color: ${theme.isDark ? '#94A6BE' : '#FFFFFF'};
   `}
 `;
 
@@ -105,7 +105,7 @@ export const CardTitle = styled.h3`
   font-size: 14px;
   font-weight: 500;
   line-height: 18px;
-  color: #000000;
+  color: ${({ theme }) => theme.isDark ? '#FFF' : '#000000'};
   margin-bottom: 10px;
 
   a {
