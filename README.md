@@ -1,16 +1,113 @@
-# React + Vite
+# README
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📋 Описание проекта
 
-Currently, two official plugins are available:
+**Kanban Board** — это веб-приложение для управления задачами в формате канбан-доски. Проект разработан в рамках обучения и демонстрирует навыки работы с современным стеком технологий.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🎯 Основные возможности
 
-## React Compiler
+- ✅ **Аутентификация пользователей** (регистрация и вход)
+- ✅ **Управление задачами** (создание, редактирование, удаление)
+- ✅ **5 колонок статусов**:
+  - Без статуса
+  - Нужно сделать
+  - В работе
+  - Тестирование
+  - Готово
+- ✅ **Категории задач**:
+  - Web Design
+  - Research
+  - Copywriting
+- ✅ **Выбор даты выполнения** через встроенный календарь
+- ✅ **Темная и светлая темы** интерфейса
+- ✅ **Адаптивный дизайн** (поддержка мобильных устройств)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠 Технологии
 
-## Expanding the ESLint configuration
+- **React 18** — основной фреймворк
+- **React Router DOM** — маршрутизация
+- **Styled Components** — стилизация компонентов
+- **Axios** — HTTP-запросы к API
+- **Context API** — управление состоянием
+- **Local Storage** — сохранение данных пользователя и темы
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 📁 Структура проекта
+
+```
+src/
+├── components/          # Компоненты приложения
+│   ├── AuthForm/       # Форма аутентификации
+│   ├── Calendar/       # Календарь выбора даты
+│   ├── Card/           # Карточка задачи
+│   ├── Column/         # Колонка канбан-доски
+│   ├── Header/         # Шапка приложения
+│   ├── MainContent/    # Основной контент
+│   ├── pages/          # Страницы (404, вход, регистрация)
+│   └── popups/         # Модальные окна
+├── context/            # Контексты (аутентификация, задачи, тема)
+├── services/           # Сервисы (API, аутентификация)
+├── styles/             # Глобальные стили
+├── utils/              # Вспомогательные функции
+├── App.jsx             # Корневой компонент
+├── AppRoutes.jsx       # Маршруты приложения
+└── main.jsx            # Точка входа
+```
+
+## 🚀 Запуск проекта
+
+### 1. Клонирование репозитория
+
+```bash
+git clone <repository-url>
+cd kanban-board
+```
+
+### 2. Установка зависимостей
+
+```bash
+npm install
+```
+
+### 3. Запуск в режиме разработки
+
+```bash
+npm run dev
+```
+
+Приложение будет доступно по адресу `http://localhost:5173`
+
+### 4. Сборка для продакшена
+
+```bash
+npm run build
+```
+
+## 🔐 API
+
+Проект использует внешнее API для хранения данных:
+
+- **Аутентификация**: `https://wedev-api.sky.pro/api/user`
+- **Задачи**: `https://wedev-api.sky.pro/api/kanban`
+
+## 📱 Адаптивность
+
+Приложение полностью адаптировано под различные устройства:
+- Десктоп (1200px и выше)
+- Планшеты (660px - 1200px)
+- Мобильные устройства (320px - 660px)
+
+## 🎨 Темы
+
+Приложение поддерживает две темы оформления:
+- **Светлая тема** (по умолчанию)
+- **Темная тема** (переключается в настройках пользователя)
+
+Настройки темы сохраняются в `localStorage`.
+
+## 📝 Лицензия
+
+Проект выполнен в рамках обучения.
+
+---
+ 
+**Дата создания**: 2025
