@@ -1,9 +1,9 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const CardItem = styled.div`
   padding: 5px;
   animation: card-animation 500ms linear;
-  
+
   @keyframes card-animation {
     0% {
       height: 0;
@@ -16,10 +16,10 @@ export const CardItem = styled.div`
   }
 `;
 
-export const CardsCard= styled.div`
+export const CardsCard = styled.div`
   width: 220px;
   height: 130px;
-  background-color: ${({ theme }) => theme.isDark ? '#20202C' : '#FFFFFF'};
+  background-color: ${({ theme }) => (theme.isDark ? "#20202C" : "#FFFFFF")};
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -45,33 +45,33 @@ export const CardTheme = styled.div`
   font-size: 10px;
   font-weight: 600;
   line-height: 10px;
- 
+
   ${({ $theme, theme }) =>
-    $theme === 'Web Design' &&
+    $theme === "Web Design" &&
     `
-    background-color: ${theme.isDark ? '#FF6D00' : '#FFE4C2'};
-    color: ${theme.isDark ? '#FFE4C2' : '#FF6D00'};
+    background-color: ${theme.isDark ? "#FF6D00" : "#FFE4C2"};
+    color: ${theme.isDark ? "#FFE4C2" : "#FF6D00"};
   `}
 
   ${({ $theme, theme }) =>
-    $theme === 'Research' &&
+    $theme === "Research" &&
     `
-    background-color: ${theme.isDark ? '#06B16E' : '#B4FDD1'};
-    color: ${theme.isDark ? '#B4FDD1' : '#06B16E'};
+    background-color: ${theme.isDark ? "#06B16E" : "#B4FDD1"};
+    color: ${theme.isDark ? "#B4FDD1" : "#06B16E"};
   `}
 
   ${({ $theme, theme }) =>
-    $theme === 'Copywriting' &&
+    $theme === "Copywriting" &&
     `
-    background-color: ${theme.isDark ? '#9A48F1' : '#E9D4FF'};
-    color: ${theme.isDark ? '#E9D4FF' : '#9A48F1'};
+    background-color: ${theme.isDark ? "#9A48F1" : "#E9D4FF"};
+    color: ${theme.isDark ? "#E9D4FF" : "#9A48F1"};
   `}
 
   ${({ $theme, theme }) =>
-    $theme === 'default' &&
+    $theme === "default" &&
     `
-    background: ${theme.isDark ? '#FFFFFF' : '#94A6BE'};
-    color: ${theme.isDark ? '#94A6BE' : '#FFFFFF'};
+    background: ${theme.isDark ? "#FFFFFF" : "#94A6BE"};
+    color: ${theme.isDark ? "#94A6BE" : "#FFFFFF"};
   `}
 `;
 
@@ -90,7 +90,7 @@ export const CardDots = styled.div`
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background-color: #94A6BE;
+  background-color: #94a6be;
 `;
 
 export const CardContent = styled.div`
@@ -105,7 +105,7 @@ export const CardTitle = styled.h3`
   font-size: 14px;
   font-weight: 500;
   line-height: 18px;
-  color: ${({ theme }) => theme.isDark ? '#FFF' : '#000000'};
+  color: ${({ theme }) => (theme.isDark ? "#FFF" : "#000000")};
   margin-bottom: 10px;
 
   a {
@@ -124,6 +124,6 @@ export const DateText = styled.p`
   margin-left: 6px;
   font-size: 10px;
   line-height: 13px;
-  color: #94A6BE;
+  color: #94a6be;
   letter-spacing: 0.2px;
 `;

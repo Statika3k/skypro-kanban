@@ -1,8 +1,8 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const MainWrapper = styled.main`
   width: 100%;
-  background-color: ${({ theme }) => theme.isDark ? '#151419' : '#eaeef6'};
+  background-color: ${({ theme }) => (theme.isDark ? "#151419" : "#eaeef6")};
 `;
 
 export const Container = styled.div`

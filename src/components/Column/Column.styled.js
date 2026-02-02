@@ -1,5 +1,4 @@
-// src/components/Column/Column.styled.js
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const ColumnWrapper = styled.div`
   width: 20%;

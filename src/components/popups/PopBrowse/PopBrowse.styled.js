@@ -39,7 +39,7 @@ export const PopBrowseContainer = styled.div`
 export const PopBrowseBlock = styled.div`
   display: block;
   margin: 0 auto;
-  background-color: ${({ theme }) => theme.isDark ? '#202229' : '#FFFFFF'};
+  background-color: ${({ theme }) => (theme.isDark ? "#202229" : "#FFFFFF")};
   max-width: 630px;
   width: 100%;
   padding: 40px 30px 38px;
@@ -53,6 +53,7 @@ export const PopBrowseBlock = styled.div`
 
   @media (max-width: 495px) {
     padding: 20px 16px 32px;
+    border: none;
   }
 `;
 
@@ -181,19 +182,18 @@ export const Label = styled.label`
 export const FormBrowseArea = styled.textarea`
   max-width: 370px;
   width: 100%;
+  height: 200px;
+  margin-top: 14px;
   outline: none;
-  padding: 14px;
-  background: ${({ theme }) => theme.isDark ? '#151419' : '#eaeef6'};
+  padding: 20px 14px;
+  background: ${({ theme }) => (theme.isDark ? "#151419" : "#eaeef6")};
   border: 0.7px solid rgba(148, 166, 190, 0.4);
-  border-radius: 8px;  
+  border-radius: 8px;
   font-family: "Roboto";
   font-size: 14px;
   line-height: 1;
   letter-spacing: -0.14px;
-  margin-top: 14px;
-  height: 200px;
-  color: #94A6BE;
-
+  color: #94a6be;
 
   &::placeholder {
     font-weight: 400;
@@ -203,9 +203,14 @@ export const FormBrowseArea = styled.textarea`
     letter-spacing: -0.14px;
   }
 
-  @media (max-width: 495px) {
+  @media screen and (max-width: 495px) {
     max-width: 100%;
-    height: 37px;
+    height: 44px;
+    padding: 14px;
+
+    &::placeholder {
+      line-height: 20px;
+    }
   }
 `;
 
@@ -230,6 +235,7 @@ export const BtnGroup = styled.div`
   @media (max-width: 495px) {
     flex-direction: column;
     gap: 10px;
+    width: 100%;
   }
 `;
 

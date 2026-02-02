@@ -61,18 +61,18 @@ html, body {
 
 /* Цветовые классы */
 ._orange {
-  background-color: ${({ theme }) => theme.isDark ? '#FF6D00' : '#FFE4C2'};
-  color: ${({ theme }) => theme.isDark ? '#FFE4C2' : '#FF6D00'};
+  background-color: ${({ theme }) => (theme.isDark ? "#FF6D00" : "#FFE4C2")};
+  color: ${({ theme }) => (theme.isDark ? "#FFE4C2" : "#FF6D00")};
 }
 
 ._green {
-  background-color: ${({ theme }) => theme.isDark ? '#06B16E' : '#B4FDD1'};
-  color: ${({ theme }) => theme.isDark ? '#B4FDD1' : '#06B16E'};
+  background-color: ${({ theme }) => (theme.isDark ? "#06B16E" : "#B4FDD1")};
+  color: ${({ theme }) => (theme.isDark ? "#B4FDD1" : "#06B16E")};
 }
 
 ._purple {
-  background-color: ${({ theme }) => theme.isDark ? '#9A48F1' : '#E9D4FF'};
-  color: ${({ theme }) => theme.isDark ? '#E9D4FF' : '#9A48F1'};
+  background-color: ${({ theme }) => (theme.isDark ? "#9A48F1" : "#E9D4FF")};
+  color: ${({ theme }) => (theme.isDark ? "#E9D4FF" : "#9A48F1")};
 }
 
 ._gray {
