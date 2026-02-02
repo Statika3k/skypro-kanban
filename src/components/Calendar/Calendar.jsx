@@ -21,7 +21,6 @@ function Calendar({ onDateSelect, initialDate }) {
   const [selectedDate, setSelectedDate] = useState(initialDate || new Date());
   const [hoveredDate, setHoveredDate] = useState(null);
 
-  // Генерируем массив дней для календаря
   const generateCalendarDays = () => {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
@@ -29,23 +28,21 @@ function Calendar({ onDateSelect, initialDate }) {
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
 
+    const firstDayOfWeek = (firstDay.getDay() + 6) % 7;
     const daysInMonth = lastDay.getDate();
-    const firstDayOfWeek = (firstDay.getDay() + 6) % 7; // Понедельник = 0
 
     const days = [];
 
-    // Дни предыдущего месяца
     const prevMonthLastDay = new Date(year, month, 0).getDate();
-    for (let i = 0; i < firstDayOfWeek; i++) {
+    for (let i = firstDayOfWeek - 1; i >= 0; i--) {
       days.push({
-        day: prevMonthLastDay - firstDayOfWeek + i + 1,
+        day: prevMonthLastDay - i,
         month: month - 1,
-        year,
+        year: month === 0 ? year - 1 : year,
         isCurrentMonth: false,
       });
     }
 
-    // Дни текущего месяца
     for (let i = 1; i <= daysInMonth; i++) {
       days.push({
         day: i,
@@ -56,14 +53,13 @@ function Calendar({ onDateSelect, initialDate }) {
       });
     }
 
-    // Дни следующего месяца
-    const totalCells = 42; // 6 недель × 7 дней
+    const totalCells = 42;
     const remainingCells = totalCells - days.length;
     for (let i = 1; i <= remainingCells; i++) {
       days.push({
         day: i,
         month: month + 1,
-        year,
+        year: month === 11 ? year + 1 : year,
         isCurrentMonth: false,
       });
     }
@@ -71,7 +67,6 @@ function Calendar({ onDateSelect, initialDate }) {
     return days;
   };
 
-  // Форматирование месяца и года
   const formatMonthYear = (date) => {
     const months = [
       "Январь",
@@ -90,20 +85,18 @@ function Calendar({ onDateSelect, initialDate }) {
     return `${months[date.getMonth()]} ${date.getFullYear()}`;
   };
 
-  // Навигация по месяцам
   const handlePrevMonth = () => {
     setCurrentDate(
-      new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1)
+      new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1),
     );
   };
 
   const handleNextMonth = () => {
     setCurrentDate(
-      new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)
+      new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1),
     );
   };
 
-  // Клик по дате
   const handleDateClick = (dayObj) => {
     if (dayObj.date) {
       setSelectedDate(dayObj.date);
@@ -113,19 +106,16 @@ function Calendar({ onDateSelect, initialDate }) {
     }
   };
 
-  // Ховер по дате
   const handleDateHover = (dayObj) => {
     if (dayObj.date) {
       setHoveredDate(dayObj.date);
     }
   };
 
-  // Сброс ховера
   const handleDateLeave = () => {
     setHoveredDate(null);
   };
 
-  // Проверка - сегодняшний день
   const isToday = (date) => {
     if (!date) return false;
     const today = new Date();
@@ -136,7 +126,6 @@ function Calendar({ onDateSelect, initialDate }) {
     );
   };
 
-  // Проверка - выбранная дата
   const isSelected = (date) => {
     if (!date || !selectedDate) return false;
     return (
@@ -146,7 +135,6 @@ function Calendar({ onDateSelect, initialDate }) {
     );
   };
 
-  // Проверка - дата под ховером
   const isHovered = (date) => {
     if (!date || !hoveredDate) return false;
     return (
@@ -156,11 +144,10 @@ function Calendar({ onDateSelect, initialDate }) {
     );
   };
 
-  // Проверка - выходной
   const isWeekend = (date) => {
     if (!date) return false;
     const day = date.getDay();
-    return day === 0 || day === 6; // 0 = воскресенье, 6 = суббота
+    return day === 0 || day === 6;
   };
 
   const days = generateCalendarDays();

@@ -27,7 +27,6 @@ export const AuthForm = ({ isSignUp = false }) => {
   });
 
   const validateForm = () => {
-    // Для регистрации
     if (
       isSignUp &&
       (!formData.name.trim() ||
@@ -38,7 +37,6 @@ export const AuthForm = ({ isSignUp = false }) => {
       return false;
     }
 
-    // Для авторизации
     if (!isSignUp && (!formData.login.trim() || !formData.password.trim())) {
       setError("Заполните все поля");
       return false;
@@ -57,7 +55,6 @@ export const AuthForm = ({ isSignUp = false }) => {
     e.preventDefault();
     setError("");
 
-    // Валидация перед отправкой
     if (!validateForm()) {
       return;
     }
@@ -78,13 +75,11 @@ export const AuthForm = ({ isSignUp = false }) => {
           login: formData.login,
           password: formData.password,
         });
-      }      
+      }
 
-      // возвращает токен в корне объекта!
-      if (result.token) {        
+      if (result.token) {
         setToken(result.token);
 
-        // Сохраняем информацию о пользователе
         const userInfo = {
           id: result._id,
           name: result.name,
@@ -92,10 +87,9 @@ export const AuthForm = ({ isSignUp = false }) => {
           token: result.token,
         };
         updateUserInfo(userInfo);
-        
+
         localStorage.setItem("isAuth", "true");
 
-        // Переходим на главную
         navigate("/", { replace: true });
       } else {
         throw new Error("Токен не найден в ответе сервера");
@@ -151,8 +145,8 @@ export const AuthForm = ({ isSignUp = false }) => {
                 {isLoading
                   ? "Загрузка..."
                   : isSignUp
-                  ? "Зарегистрироваться"
-                  : "Войти"}
+                    ? "Зарегистрироваться"
+                    : "Войти"}
               </p>
             </AuthFormBtnEnter>
             <AuthFormGroup>
