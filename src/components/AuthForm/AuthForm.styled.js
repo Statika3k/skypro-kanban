@@ -5,6 +5,7 @@ export const AuthFormConteiner = styled.div`
   width: 100vw;
   min-height: 100vh;
   margin: 0 auto;
+  background-color: ${({ theme }) => theme.isDark ? '#20202C' : '#F1F1F1'};
 `;
 export const AuthFormSignIn = styled.div`
   width: 100%;
@@ -16,18 +17,18 @@ export const AuthFormSignIn = styled.div`
   align-items: center;
   justify-content: center;
   @media screen and (max-width: 375px) {
-    background-color: #ffffff;
+    background-color: ${({ theme }) => theme.isDark ? '#20202C' : '#ffffff'};;
   }
 `;
 export const AuthFormBlock = styled.div`
   display: block;
   margin: 0 auto;
-  background-color: #ffffff;
+  background-color: ${({ theme }) => theme.isDark ? '#20202C' : '#ffffff'};;
   max-width: 368px;
   width: 100%;
   padding: 50px 60px;
   border-radius: 10px;
-  border: 0.7px solid #d4dbe5;
+  border: 0.7px solid ${({ theme }) => theme.isDark ? '#4E5566' : '#d4dbe5'};
   box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
   @media screen and (max-width: 375px) {
     max-width: 368px;
@@ -46,6 +47,7 @@ export const AuthFormHeader = styled.div`
     line-height: 30px;
     letter-spacing: -0.6px;
     margin-bottom: 20px;
+    color: ${({ theme }) => theme.isDark ? '#FFF' : '#000'}
   }
 `;
 export const AuthFormLogin = styled.form`
@@ -66,6 +68,9 @@ width: 100%;
   outline: none;
   padding: 10px 8px;
   margin-bottom: 7px;
+  background-color: ${({ theme }) => theme.isDark ? '#20202C' : '#FFF'};
+  color: ${({ theme }) => theme.isDark ? '#FFF' : '#000'};
+
   &::-moz-placeholder {
   font-family: "Roboto", sans-serif;
   font-weight: 400;

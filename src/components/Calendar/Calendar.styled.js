@@ -3,15 +3,21 @@ import styled from "styled-components";
 export const CalendarWrapper = styled.div`
   width: 182px;
   margin-bottom: 20px;
+
+  @media (max-width: 376px) {
+    width: 100%;
+    margin-top: 20px;
+  }
 `;
 
 export const CalendarTitle = styled.p`
-  color: #000;
+  color: ${({ theme }) => (theme.isDark ? "#FFF" : "#000")};
   font-size: 14px;
   font-weight: 600;
   line-height: 1;
   margin-bottom: 14px;
   padding: 0 7px;
+  transition: color 0.3s ease;
 `;
 
 export const CalendarBlock = styled.div`
@@ -55,6 +61,10 @@ export const NavAction = styled.div`
 
 export const CalendarContent = styled.div`
   margin-bottom: 12px;
+
+  @media (max-width: 376px) {
+    margin-bottom: 14px;
+  }
 `;
 
 export const DaysNames = styled.div`
@@ -63,7 +73,14 @@ export const DaysNames = styled.div`
   align-items: center;
   justify-content: space-between;
   margin: 7px 0;
-  padding: 0 7px;
+
+  @media (max-width: 376px) {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 9px;
+  }
 `;
 
 export const DayName = styled.div`
@@ -72,9 +89,19 @@ export const DayName = styled.div`
   font-weight: 500;
   line-height: normal;
   letter-spacing: -0.2px;
+  width: calc(100% / 7);
+  text-align: center;
+  display: flex;
+  justify-content: space-around;
 
   &.-weekend- {
     color: #94a6be;
+  }
+
+  @media (max-width: 376px) {
+    font-size: 12px;
+    width: 30px;
+    justify-content: space-between;
   }
 `;
 
@@ -83,6 +110,15 @@ export const Cells = styled.div`
   height: 126px;
   display: flex;
   flex-wrap: wrap;
+
+  @media (max-width: 376px) {
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 7px;
+    padding: 0;
+  }
 `;
 
 export const Cell = styled.div`
@@ -98,20 +134,31 @@ export const Cell = styled.div`
   line-height: 1;
   letter-spacing: -0.2px;
   cursor: pointer;
+  position: relative;
+  flex: 0 0 auto;
+  box-sizing: border-box;
+
+  @media (max-width: 376px) {
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+    margin: 2px;
+  }
 
   /* Дни других месяцев */
   &._other-month {
     opacity: 0;
-    pointer-events: none;
   }
 
   /* Дни текущего месяца */
-  &._cell-day {
+  &._cell-day:hover {
     color: #94a6be;
-    
-    &:hover {
-      color: #94a6be;
-    }
+    background-color: #eaeef6;
+  }
+
+  &._active-day {
+    background-color: #94a6be;
+    color: #ffffff;
   }
 
   /* Выходные дни */
@@ -125,42 +172,12 @@ export const Cell = styled.div`
     color: #000000;
   }
 
-  /* Ховер - светло-серый кружок */
-  &._hovered::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background-color: #F0F0F0; /* светло-серый */
-    z-index: -1;
-  }
-
-  /* Выбранная дата - серый кружок */
-  &._selected::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background-color: #EAEEF6; /* серый */
-    z-index: -1;
-  }
-
-  /* Приоритет выбранной даты над ховером */
-  &._selected._hovered::before {
-    background-color: #EAEEF6; /* оставляем серый при клике */
-  }
-
   /* Цвет текста на выделенном фоне */
-  &._selected, &._hovered, &._selected._hovered {
-    color: #000000;
+  &._selected,
+  &._hovered,
+  &._selected._hovered {
+    color: #ffffff;
+    background-color: #94a6be;
   }
 `;
 
@@ -174,6 +191,6 @@ export const PeriodText = styled.p`
   line-height: 1;
 
   span {
-    color: #000000;
+    color: ${({ theme }) => (theme.isDark ? "#FFF" : "#000")};
   }
 `;

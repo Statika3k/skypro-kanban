@@ -29,7 +29,6 @@ function PopNewCard() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
 
-  // Состояние для формы
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -41,28 +40,24 @@ function PopNewCard() {
   const handleClose = () => {
     navigate("/");
   };
-  // Обработчик изменения полей формы
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     setError("");
   };
 
-  // Обработчик выбора темы
   const handleTopicSelect = (topic) => {
     setFormData((prev) => ({ ...prev, topic }));
   };
 
-  // Обработчик выбора даты из календаря
   const handleDateSelect = (date) => {
     setFormData((prev) => ({ ...prev, date: date.toISOString() }));
   };
 
-  // Отправка формы
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Валидация
     if (!formData.title.trim()) {
       setError("Введите название задачи");
       return;

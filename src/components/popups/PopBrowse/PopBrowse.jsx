@@ -48,37 +48,27 @@ function PopBrowse({ taskId }) {
     date: new Date(),
   });
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
 
   useEffect(() => {
-    if (!id) {
-      navigate("/");
-      return;
-    }
-
+    if (!id || isDeleted) return;
     const load = async () => {
       try {
-        const t = await getTaskById(id);
-        if (!t) {
-          alert("Задача не найдена");
-          navigate("/");
-          return;
-        }
-        setTask(t);
+        const taskData = await getTaskById(id);
+        setTask(taskData);
         setFormData({
-          description: t.description || "",
-          status: t.status || "Без статуса",
-          topic: t.topic || "Research",
-          date: t.date ? new Date(t.date) : new Date(),
+          description: taskData.description || "",
+          status: taskData.status || "Без статуса",
+          topic: taskData.topic || "Research",
+          date: taskData.date ? new Date(taskData.date) : new Date(),
         });
       } catch (err) {
-        console.error("Ошибка загрузки:", err);
-        alert("Не удалось загрузить задачу");
-        navigate("/");
+        alert("Не удалось загрузить задачу: " + (err.message || ""));
+        navigate("/", { replace: true });
       }
     };
-
     load();
-  }, [id, getTaskById, navigate]);
+  }, [id, isDeleted, getTaskById, navigate]);
 
   const handleStatusClick = (status) => {
     if (isEditing) {
@@ -103,10 +93,9 @@ function PopBrowse({ taskId }) {
         },
       });
 
-      navigate("/", {replace: true});
+      navigate("/", { replace: true });
 
       await refreshTasks();
-      
     } catch (err) {
       alert("Не удалось сохранить: " + (err.message || ""));
     }
@@ -114,13 +103,14 @@ function PopBrowse({ taskId }) {
 
   const handleDelete = async () => {
     if (!confirm("Удалить задачу? Это нельзя отменить.")) return;
-
     setIsDeleting(true);
+    setIsDeleted(true);
     try {
       await deleteTask(id);
       navigate("/", { replace: true });
     } catch (err) {
       alert("Ошибка удаления: " + (err.message || ""));
+      setIsDeleted(false);
     } finally {
       setIsDeleting(false);
     }
@@ -152,8 +142,8 @@ function PopBrowse({ taskId }) {
                   formData.topic === "Web Design"
                     ? "orange"
                     : formData.topic === "Research"
-                    ? "green"
-                    : "purple"
+                      ? "green"
+                      : "purple"
                 } _active-category`}
               >
                 <p
@@ -161,8 +151,8 @@ function PopBrowse({ taskId }) {
                     formData.topic === "Web Design"
                       ? "orange"
                       : formData.topic === "Research"
-                      ? "green"
-                      : "purple"
+                        ? "green"
+                        : "purple"
                   }`}
                 >
                   {formData.topic}
@@ -182,8 +172,8 @@ function PopBrowse({ taskId }) {
                           ? "_active"
                           : ""
                         : formData.status === status
-                        ? "_active"
-                        : "_hide"
+                          ? "_active"
+                          : "_hide"
                     }
                     onClick={() => handleStatusClick(status)}
                   >

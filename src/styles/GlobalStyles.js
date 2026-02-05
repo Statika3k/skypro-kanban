@@ -4,7 +4,7 @@ export const ErrorMessage = styled.p`
   color: #f84d4d;
   font-family: Arial;
   font-weight: 400;
-  font-size: 12px;  
+  font-size: 12px;
   letter-spacing: 0;
   text-align: center;
 `;
@@ -34,7 +34,8 @@ html, body {
   width: 100%;
   height: 100%;
   font-family: "Roboto", Arial, Helvetica, sans-serif;
-  color: #000000;
+  color: ${({ theme }) => (theme.isDark ? "#FFF" : "#000")};
+  background-color: ${({ theme }) => (theme.isDark ? "#151419" : "#FFF")};
 }
 
 .wrapper {
@@ -60,18 +61,18 @@ html, body {
 
 /* Цветовые классы */
 ._orange {
-  background-color: #FFE4C2;
-  color: #FF6D00;
+  background-color: ${({ theme }) => (theme.isDark ? "#FF6D00" : "#FFE4C2")};
+  color: ${({ theme }) => (theme.isDark ? "#FFE4C2" : "#FF6D00")};
 }
 
 ._green {
-  background-color: #B4FDD1;
-  color: #06B16E;
+  background-color: ${({ theme }) => (theme.isDark ? "#06B16E" : "#B4FDD1")};
+  color: ${({ theme }) => (theme.isDark ? "#B4FDD1" : "#06B16E")};
 }
 
 ._purple {
-  background-color: #E9D4FF;
-  color: #9A48F1;
+  background-color: ${({ theme }) => (theme.isDark ? "#9A48F1" : "#E9D4FF")};
+  color: ${({ theme }) => (theme.isDark ? "#E9D4FF" : "#9A48F1")};
 }
 
 ._gray {

@@ -16,14 +16,20 @@ import {
   ExitButton,
 } from "./Header.styled";
 import { AuthContext } from "../../context/AuthContext";
+import { ThemeContext } from "../../context/ThemeContext";
 
 function Header() {
   const [isPopUserOpen, setIsPopUserOpen] = useState(false);
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
+  const { isDark, toggleTheme } = useContext(ThemeContext);
 
   const handleUserClick = () => {
     setIsPopUserOpen(!isPopUserOpen);
+  };
+
+  const handleThemeChange = () => {
+    toggleTheme();
   };
 
   return (
@@ -60,7 +66,10 @@ function Header() {
                 <UserEmail>{user?.email || ""}</UserEmail>
                 <ThemeToggle>
                   <p>Темная тема</p>
-                  <ThemeCheckbox />
+                  <ThemeCheckbox
+                    checked={isDark}
+                    onChange={handleThemeChange}
+                  />
                 </ThemeToggle>
                 <ExitButton
                   as="button"

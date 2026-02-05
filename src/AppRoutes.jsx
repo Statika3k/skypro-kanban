@@ -5,8 +5,8 @@ import SignUpPage from "./components/pages/SignUpPage";
 import NewCardPage from "./components/pages/NewCard";
 import BrowsePage from "./components/pages/BrowsePage";
 import ExitPage from "./components/pages/ExitPage";
-import NotFoundPage from "./components/pages/NotFoundPage";
 import PrivateRoute from "./components/PrivateRoute";
+import NotFoundPage from "./components/pages/404/NotFoundPage";
 
 function AppRoutes() {
   return (
